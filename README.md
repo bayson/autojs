@@ -3,7 +3,7 @@
 本程序是一个AutoJs的脚本，实现了微博自动注册，远程获取微博内容，自动发布微博的功能！
 ## 必备条件
 1. webpack基于nodejs,电脑上必须安装nodejs.
-2. 安卓上安装AutoJs的App:[https://github.com/hyb1996/Auto.js]，AutoJs帮助文档：[https://hyb1996.github.io/AutoJs-Docs/]
+2. 安卓上安装AutoJs的App: [https://github.com/hyb1996/Auto.js]  AutoJs帮助文档：[https://hyb1996.github.io/AutoJs-Docs/]
 ## 注意事项
 ## 操作步骤
 1. git clone https://github.com/bayson/autojs.git
