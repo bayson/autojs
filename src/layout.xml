@@ -1,0 +1,7 @@
+  <vertical>
+    <button id='btnLogin'>登陆</button>
+    <button id='btnActive'>激活</button>
+    <button id='btnReplyOne'>回复指定微博</button>
+    <button id='btnReplyAuto'>自动回复</button>
+    <button id='btnViewAuto'>自动浏览</button>
+  </vertical>
