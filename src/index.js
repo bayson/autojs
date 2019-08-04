@@ -171,7 +171,8 @@ function init() {
   //远程获取配置
   Api.getConfig();
   toast('获取配置成功');
-  console.log('获取配置：' + JSON.stringify(Env.config));
+  // console.log('获取配置成功：' + JSON.stringify(Env.config));
+  console.log('获取配置成功');
   sleep(1000);
 
 }
