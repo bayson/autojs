@@ -89,6 +89,7 @@ var job = {
                 { next: this.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_3, jobs: this.pages.ACCOUNT_ERROR_3.operates.next },
                 { next: this.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_4, jobs: this.pages.ACCOUNT_ERROR_4.operates.next },
                 { next: this.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_5, jobs: this.pages.ACCOUNT_ERROR_5.operates.next },
+                { next: this.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_6, jobs: this.pages.ACCOUNT_ERROR_6.operates.next },
             ],
         }
 
@@ -488,6 +489,20 @@ var job = {
                 next: [
                     { name: "click", mark: { id: "titleLeft" } },
                     { name: "click", mark: { id: "tv_title_bar_back" } },
+                ],
+                finish: [{ name: "back" }],
+            },
+        },
+        ACCOUNT_ERROR_6: {
+            desc: "清除数据",
+            name: "清除数据", pageid: Env.PageEnum.ACCOUNT_ERROR_6, mark: { id: "btn_restart", text: "清除数据" },
+            next: [],
+            operates: {
+                next: [
+                    { name: "click", mark: { id: "btn_restart" } },
+                ],
+                skip: [
+                    { name: "click", mark: { id: "btn_skip" } },
                 ],
                 finish: [{ name: "back" }],
             },
