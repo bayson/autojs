@@ -6,7 +6,7 @@
 */
 
 
-var Env = require('./env');
+var Env = require('../env');
 
 var sms={
  

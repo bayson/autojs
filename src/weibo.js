@@ -17,7 +17,7 @@
 */
 
 var Job = require('./jobs/weibo');
-var Work = require('./work');
+var Work = require('./common/work');
 
 /**
  * 初始化并获取配置

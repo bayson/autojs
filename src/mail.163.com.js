@@ -18,7 +18,7 @@
 
 
 var Job = require('./jobs/mail.163.com-web');
-var Work = require("./work");
+var Work = require("./common/work");
 
 /**
  * 初始化并获取配置
@@ -54,9 +54,9 @@ function pageSecond() {
     var target = child.findOne(className("android.view.View"));
     if (!!target) {
       console.log('find search')
-      // Tap(target.bounds().centerX(), target.bounds().centerY());
+      Tap(target.bounds().centerX(), target.bounds().centerY());
       sleep(2000);
-      var str = "网易邮箱";
+      var str = "mail.163.com";
       var strArray = str.split("")
       if (strArray.length > 0) {
         setText(strArray[0]);

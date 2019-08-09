@@ -24,7 +24,7 @@
 
 var Utils = require('./utils');
 var Api = require('./api');
-var Env = require('./env');
+var Env = require('../env');
 
 var operate = {
     /**

@@ -8,7 +8,7 @@ var config = {
     main: './src/index.js',
     weibo: './src/weibo.js',
     mail163: './src/mail.163.com.js',
-    test: './src/test.js'
+    test: './src/test/test.js'
   },
   output: {
     // filename: 'main.js',

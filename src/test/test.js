@@ -5,11 +5,11 @@
 * @version 0.1
 */
 
-var Env = require('./env');
-var Api = require('./api');
-var Utils = require('./utils');
-var Operate = require('./operate');
-var Job = require('./jobs/weibo');
+var Env = require('../env');
+var Api = require('../common/api');
+var Utils = require('../common/utils');
+var Operate = require('../common/operate');
+var Job = require('../jobs/weibo');
 
 
 function test() {

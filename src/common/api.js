@@ -5,7 +5,7 @@
 * @version 0.1
 */
 
-var Env = require('./env')
+var Env = require('../env')
 var Sms = require('./sms')
 
 var api={

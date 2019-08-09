@@ -16,7 +16,7 @@
 * @version 0.1
 */
 
-var Env = require('./env');
+var Env = require('../env');
 var Api = require('./api');
 var Utils = require('./utils');
 var Operate = require('./operate');
