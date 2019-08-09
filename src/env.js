@@ -43,6 +43,10 @@ var Env = {
   curPhone: '', //当前使用的手机号
   curLoginCode: '',
   curHotTextItem: '',
+  curUsername:'',
+  curPassword:'',
+  curRegisterCode:'',
+  itemRegister: '47028', //网易邮箱
   // console.show(),
   config: {
     debug: false,
@@ -65,6 +69,7 @@ var Env = {
     isComment: 1,
     itemLogin: '11698',
     itemJihuo: '1507',
+    itemRegister: '47028',
     exceptPhone: '170.171.180.198.165.166',
     token: '01612967355ef542176c2740c0855e2a5921725c4701',
   },
@@ -104,7 +109,9 @@ var Env = {
     HOME:31,
     ACCOUNT_ERROR_5:32,
     ACCOUNT_ERROR_6:33,
-
+    REGISTER:35,
+    ACCOUNT_SEND_CONFIRM:36,
+    REGISTER_OK:37,
   },
 
 }

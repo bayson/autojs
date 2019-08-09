@@ -16,12 +16,12 @@ var api={
   getConfig:function() {
     try {
         // toast('开始获取配置');
-        var c = Env.curName;
-        var r = http.get("https://kapi.i-tax.ren/api/aichat/config?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&v=" + Env.VERSION);
-        var body = r.body.string();
+        let c = Env.curName;
+        let r = http.get("https://kapi.i-tax.ren/api/aichat/config?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&v=" + Env.VERSION);
+        let body = r.body.string();
         // toast('get config ok');
         if (!!body) {
-            var conf = JSON.parse(body);
+            let conf = JSON.parse(body);
             if (conf) {
                 if (!conf.disabled) {
                   Env.config = conf;
@@ -46,11 +46,11 @@ var api={
  getKeyword:function () {
     // console.log('get reply msg');
     try {
-        var r = http.get("https://kapi.i-tax.ren/api/aichat/keyword?f="+Env.CLIENT+"&n=" + encodeURIComponent(Env.curName) + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&v=" + Env.VERSION);
-        var body = r.body.string();
+        let r = http.get("https://kapi.i-tax.ren/api/aichat/keyword?f="+Env.CLIENT+"&n=" + encodeURIComponent(Env.curName) + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&v=" + Env.VERSION);
+        let body = r.body.string();
         // console.log('reply msg:' + body);
         if (!!body) {
-            // var conf = JSON.parse(body);
+            // let conf = JSON.parse(body);
             // if (conf) {
             //     Env.curKeywords = conf;
             // }
@@ -70,9 +70,9 @@ var api={
  getReplyMsg:function(msg) {
     // console.log('get reply msg');
     try {
-        var c = !!msg ? msg : Env.curTitleContent.substr(0, 255);
-        var r = http.get("https://kapi.i-tax.ren/api/aichat/reply?f="+Env.CLIENT+"&c=" + encodeURIComponent(c) + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&v=" + Env.VERSION);
-        var body = r.body.string();
+        let c = !!msg ? msg : Env.curTitleContent.substr(0, 255);
+        let r = http.get("https://kapi.i-tax.ren/api/aichat/reply?f="+Env.CLIENT+"&c=" + encodeURIComponent(c) + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&v=" + Env.VERSION);
+        let body = r.body.string();
         // console.log('reply msg:' + body);
         Env.curComment = body;
         return body;
@@ -101,14 +101,14 @@ var api={
   },
 
   getHotTextItem:function(){
-    var groupItems = ['推荐', '榜单', '社会', '搞笑', '情感', '时尚', '校园', '摄影', '艺术', '明星', '美女', 'NBA'];
+    let groupItems = ['推荐', '榜单', '社会', '搞笑', '情感', '时尚', '校园', '摄影', '艺术', '明星', '美女', 'NBA'];
     if (Env.config && Env.config.groupItems && Env.config.groupItems.length > 0) {
         groupItems = Env.config.groupItems;
         // toast('use Env.config group items');
     }
 
     Env.curGroupId = 0;
-    var subGroup = random(0, groupItems.length - 1);
+    let subGroup = random(0, groupItems.length - 1);
     if (Env.config && Env.config.subGroupId > -1) {
         subGroup = Env.config.subGroupId;
     }
@@ -128,7 +128,7 @@ var api={
   * @param {*} msg 
   */
  postReplyMsg:function(msg) {
-    var url = "https://kapi.i-tax.ren/api/aichat/reply";
+    let url = "https://kapi.i-tax.ren/api/aichat/reply";
     r = http.postJson(url, {
         n: Env.curName,
         c: !!msg ? msg : Env.curTitleContent,
@@ -137,7 +137,7 @@ var api={
         v: Env.VERSION,
         f: Env.CLIENT,
     });
-    var body = r.body.string();
+    let body = r.body.string();
     // toast(body);
     Env.curComment = body;
     return body;
@@ -148,7 +148,7 @@ var api={
   * @param {*} msg 
   */
  postUpdateStatus:function(status) {
-    var url = "https://kapi.i-tax.ren/api/aichat/status";
+    let url = "https://kapi.i-tax.ren/api/aichat/status";
     r = http.postJson(url, {
         n: Env.curName,
         s: status,
@@ -157,30 +157,31 @@ var api={
         v: Env.VERSION,
         f: Env.CLIENT,
     });
-    var body = r.body.string();
+    let body = r.body.string();
     // toast(body);
     Env.curComment = body;
     return body;
   },
 
   getTuling:function(msg) {
-    var url = "http://www.tuling123.com/openapi/api";
+    let url = "http://www.tuling123.com/openapi/api";
     r = http.postJson(url, {
         key: "65458a5df537443b89b31f1c03202a80",
         info: "你好啊",
         userid: "1",
     });
-    var body = r.body.string();
+    let body = r.body.string();
     toast(body);
     Env.curComment = body;
     return body;
   },
 
-  loginOk:function(phone, name, type) {
+  loginOk:function(phone, name, type,msg) {
     try {
-      var c = name;
-      var r = http.get("https://kapi.i-tax.ren/api/aichat/loginok?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&p=" + phone + "&tp=" + type);
-      var body = r.body.string();
+      let c = name;
+      let r = http.get("https://kapi.i-tax.ren/api/aichat/loginok?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) +"&msg=" + encodeURIComponent(msg)
+      + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&p=" + phone + "&tp=" + type);
+      let body = r.body.string();
       // toast(body);
       // config = body;
       // console.log('login ok back:' + body);
@@ -195,14 +196,46 @@ var api={
   getCode:function(phone){
     try {
       phone = !!phone ? phone : Env.curPhone
-      var c = name;
-      var r = http.get("https://kapi.i-tax.ren/api/aichat/phone/code?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&p=" + phone );
-      var body = r.body.string();
+      let c = name;
+      let r = http.get("https://kapi.i-tax.ren/api/aichat/phone/code?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&p=" + phone );
+      let body = r.body.string();
       return body;
     } catch (e) {
 
     }
-  }
+  },
+
+  getRegisterPhone: function () {
+    return Sms.getPhone(Env.itemRegister);
+  },
+
+  getRegisterCode: function () {
+    return Sms.getSMS(Env.curPhone, Env.itemRegister);
+  },
+
+  getRegisterSendCode: function () {
+    return Sms.sendSMS(Env.curPhone, Env.itemRegister, '注册验证');
+  },
+
+  getRegisterName: function () {
+    let names = [
+      "Aaron", "Abbott", "Abel", "Abner", "Abraham", "Adair", "Adam", "Adolph", "Adonis", "Alan", "Albert", "Aldrich", "Alexander", "Alfred", "Alger", "Allen", "Alston", "Alva", "Alvin", "Alvis", "Amos", "Andre", "Andrew", "Andy", "Angelo", "Augus", "Ansel", "Antony", "Antonio", "Archer", "Archibald", "Aries", "Arlen", "Armand", "Armstrong", "Arno", "Arthur", "Arvin", "Asa", "Atwood", "Aubrey", "August", "Augustine", "Avery",
+    ];
+    let rs = names[random(0, names.length - 1)] + random(10000, 99999);
+    rs = rs.toLowerCase();
+    toast("username:" + rs);
+    console.log("username:" + rs);
+    return rs;
+  },
+
+  getRegisterPassword: function () {
+    return "16181814";
+  },
+
+  getRegisterOk: function (){
+    let msg = {name:Env.curName,phone:Env.curPhone,item:Env.itemRegister,client:Env.CLIENT};
+    return this.loginOk(Env.curPhone,Env.curName,'register',JSON.stringify(msg));
+  },
   
 }
 module.exports=api

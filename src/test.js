@@ -9,7 +9,7 @@ var Env = require('./env');
 var Api = require('./api');
 var Utils = require('./utils');
 var Operate = require('./operate');
-var Job = require('./job');
+var Job = require('./jobs/weibo');
 
 
 function test() {

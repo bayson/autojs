@@ -6,12 +6,13 @@
 */
 
 
-var Env = require('./env');
+var Env = require('../env');
 
 /**
  * 注意：如果一个页面有多个特征码匹配，以最后一个为准
  */
 var job = {
+    CLIENT:'mail.163.com',
     /**
      * @description 定义各步骤的标志
      */
@@ -48,6 +49,7 @@ var job = {
                 { next: this.STEP.LOGIN, pageid: Env.PageEnum.REGISTER, jobs: this.pages.REGISTER.operates.input },
                 { next: this.STEP.LOGIN, pageid: Env.PageEnum.ACCOUNT_CONFIRM, jobs: this.pages.ACCOUNT_CONFIRM.operates.input },
                 { next: this.STEP.LOGIN, pageid: Env.PageEnum.ACCOUNT_SEND_CONFIRM, jobs: this.pages.ACCOUNT_SEND_CONFIRM.operates.send },
+                { next: this.STEP.LOGIN, pageid: Env.PageEnum.REGISTER_OK, jobs: this.pages.REGISTER_OK.operates.send },
             ],
         }
     },
@@ -60,6 +62,7 @@ var job = {
             must: [
                 { pageid: Env.PageEnum.REGISTER, jobs: this.pages.REGISTER.operates.input },
                 { pageid: Env.PageEnum.ACCOUNT_SEND_CONFIRM, jobs: this.pages.ACCOUNT_SEND_CONFIRM.operates.send },
+                { pageid: Env.PageEnum.REGISTER_OK, jobs: this.pages.REGISTER_OK.operates.send },
             ],
             someone: [
             ],

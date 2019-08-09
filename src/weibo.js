@@ -17,7 +17,7 @@
 */
 
 var Job = require('./jobs/weibo');
-var App = require('./app');
+var Work = require('./work');
 
 /**
  * 初始化并获取配置
@@ -28,9 +28,9 @@ function init() {
 
 
 function main(){
-  App.init('com.sina.weibo');
+  Work.init('com.sina.weibo');
   init();
-  App.main(Job);
+  Work.main(Job);
 }
 
 //运行

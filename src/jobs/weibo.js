@@ -6,7 +6,7 @@
 */
 
 
-var Env = require('./env');
+var Env = require('../env');
 
 /**
  * 注意：如果一个页面有多个特征码匹配，以最后一个为准

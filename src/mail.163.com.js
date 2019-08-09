@@ -18,7 +18,7 @@
 
 
 var Job = require('./jobs/mail.163.com-web');
-var App = require('./app');
+var Work = require("./work");
 
 /**
  * 初始化并获取配置
@@ -40,27 +40,28 @@ function doHome() {
 }
 
 function pageFirst() {
-  toast("do first");
+  console.log("do first");
   className("android.widget.TextView").text("搜免费小说 影视 游戏 App").findOne().click();
   sleep(1000);
 }
 
 function pageSecond() {
-  toast("do second");
+  console.log("do second");
   //通过搜索页,进入微博网页版
   // className("android.view.View").clickable(true).longClickable(true).findOne().setText("35岁检察官带人上门打70岁空巢老人");
   // className("android.view.View").clickable(true).longClickable(true).findOne().setText("微博");
   className("android.widget.TextView").text("取消").findOne().parent().children().forEach(child => {
     var target = child.findOne(className("android.view.View"));
     if (!!target) {
-      toast('find search')
-      Tap(target.bounds().centerX(), target.bounds().centerY());
+      console.log('find search')
+      // Tap(target.bounds().centerX(), target.bounds().centerY());
       sleep(2000);
-      var str = "mail.163.com";
+      var str = "网易邮箱";
       var strArray = str.split("")
       if (strArray.length > 0) {
         setText(strArray[0]);
       }
+      console.log('Input',strArray);
       for (var i = 1; i < strArray.length; i++) {
         var char = strArray[i];
         input(char);
@@ -76,9 +77,11 @@ function pageSecond() {
 }
 
 function main(){
-  App.init('com.tencent.mtt');
-  init();
-  App.main(Job);
+
+  Work.init('com.tencent.mtt');
+  // init();
+  var __curJob = JSON.parse(JSON.stringify(Job));
+  Work.main(__curJob);
 }
 
 main();
