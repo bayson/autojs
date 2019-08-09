@@ -6,8 +6,8 @@ var addUI = require('./addUI');
 var config = {
   entry: {
     main: './src/index.js',
-    weibo: './src/weibo.js',
-    mail163: './src/mail.163.com.js',
+    新浪微博: './src/weibo.js',
+    网易邮箱: './src/mail.163.com.js',
     test: './src/test/test.js'
   },
   output: {
