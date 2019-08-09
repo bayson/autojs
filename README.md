@@ -31,7 +31,7 @@
 * 2.直接启动脚本即可
 * 3.暂时不支持解锁手机
 ## 展示:
-<div align=center><img height="1080" width="540" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/autojs_01.png"/></div>
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/autojs_01.png"/></div>
 <br>
 
 
