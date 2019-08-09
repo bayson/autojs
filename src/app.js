@@ -20,19 +20,41 @@ var Env = require('./env');
 var Api = require('./api');
 var Utils = require('./utils');
 var Operate = require('./operate');
-var Job = require('./jobs/weibo');
 
 
+var app = {
 
-let curPage = 0;
-let curConf = null;
-let pageList = [];
-let curStep = 0;
+  _curPage : 0,
+  _curConf : null,
+  _pageList : [],
+  _curStep : 0,
+
+  init:function (package) {
+    auto();
+    
+    var ra = new RootAutomator();
+    events.on('exit', function () {
+      ra.exit();
+    });
+  
+    if (currentPackage() != package ) {
+      launch(package);
+      waitForPackage(package);
+      sleep(5000);
+    }
+    //远程获取配置
+    Api.getConfig();
+    toast('获取配置成功');
+    // console.log('获取配置成功：' + JSON.stringify(Env.config));
+    console.log('获取配置成功');
+    sleep(1000);
+  
+  },
 
 /**
  * 主函数
  */
-function main() {
+main: function(Job) {
   let items = {
     login:JSON.parse(JSON.stringify(Job.login)),
     nickname:JSON.parse(JSON.stringify(Job.nickname)),
@@ -40,27 +62,26 @@ function main() {
     logout:JSON.parse(JSON.stringify(Job.logout)),
   };
   //初始化
-  init();
   while (true) {
     //判断下一步的位置
-    nextStep();
+    this.nextStep();
     //执行操作
-    switch (curStep) {
+    switch (this._curStep) {
       case Job.STEP.LOGIN:
         console.log('login');
-        run(items['login']);
+        this.run(items['login']);
         break;
       case Job.STEP.NICKNAME:
         console.log('nickname');
-        run(items['nickname']);
+        this.run(items['nickname']);
         break;
       case Job.STEP.WRITE:
         console.log('write');
-        run(items['write']);
+        this.run(items['write']);
         break;
       case Job.STEP.NEEDLOGOUT:
         console.log('logout');
-        run(items['logout']);
+        this.run(items['logout']);
         break;
       default:
         break;
@@ -69,50 +90,50 @@ function main() {
   }
 
 
-}
+},
 
 /**
  * 判断下一步执行什么
  */
-function nextStep() {
+nextStep: function() {
   let conf = Operate.curPage(Job.pages);
-  if (curPage != conf.pageid) {
+  if (this._curPage != conf.pageid) {
     if (!!conf.operates && !!conf.operates.finish && conf.operates.finish.length > 0) {
-      // pageList.splice(0,0,conf);
-      pageList.push(conf);
+      // this._pageList.splice(0,0,conf);
+      this._pageList.push(conf);
     }
-    curPage = conf.pageid;
-    curConf = conf;
+    this._curPage = conf.pageid;
+    this._curConf = conf;
   }
   let someone = Job.default.someone;
   for (let item of Job.default.steps) {
-    if (item.step === curStep && someone.length > 0) {
+    if (item.step === this._curStep && someone.length > 0) {
       someone = item.step.someone;
       break;
     }
   }
-  curStep = Operate.nextStep(curPage, someone);
-  toast('找到：' + conf.name, curStep);
-  console.log('找到：' + conf.name, curStep);
+  this._curStep = Operate.nextStep(this._curPage, someone);
+  toast('找到：' + conf.name, this._curStep);
+  console.log('找到：' + conf.name, this._curStep);
 
-}
+},
 
 /**
  * 执行指定任务
  * @param {*} items 
  */
-function run(items) {
-  doPage(items, curConf);
+run: function (items) {
+  this.doPage(items, this._curConf);
   sleep(2000);
-}
+},
 /**
  * 处理页面的操作
  * @param {*} items 
  * @param {*} conf 
  */
-function doPage(items, conf) {
+doPage:function (items, conf) {
   let _job = null;
-  console.log('items.length start', items.must.length, curStep);
+  console.log('items.length start', items.must.length, this._curStep);
   if (!!conf && !!conf.pageid && items.must.length > 0) {
     for (let m in items.must) {
       if (conf.pageid === items.must[m].pageid) {
@@ -139,7 +160,7 @@ function doPage(items, conf) {
     console.log('in do page job:',JSON.stringify(_job));
     if (_job != null) {
       if (!!_job.next) {
-        curStep = _job.next;
+        this._curStep = _job.next;
       }
       console.log('in do page job.jobs:', JSON.stringify(_job.jobs));
       if (!!_job && !!_job.jobs) {
@@ -157,41 +178,14 @@ function doPage(items, conf) {
       }
     }
   }
-  console.log('items.must.length end', items.must.length, curStep);
+  console.log('items.must.length end', items.must.length, this._curStep);
 
-}
-
-/**
- * 初始化并获取配置
- */
-function init() {
-
-  auto();
-
-
-  var ra = new RootAutomator();
-  events.on('exit', function () {
-    ra.exit();
-  });
-
-  if (currentPackage() != 'com.sina.weibo') {
-    launch("com.sina.weibo");
-    waitForPackage("com.sina.weibo");
-    sleep(5000);
-  }
-  //远程获取配置
-  Api.getConfig();
-  toast('获取配置成功');
-  // console.log('获取配置成功：' + JSON.stringify(Env.config));
-  console.log('获取配置成功');
-  sleep(1000);
-
-}
+},
 
 /**
  * 通过返回操作，回到首页
  */
-function reset() {
+reset: function () {
   while (true) {
     let conf = Operate.curPage(Job.pages);
     if (Env.PageEnum.HOME != conf.pageid) {
@@ -199,25 +193,25 @@ function reset() {
       console.log('找到：' + conf.name);
       break;
     } else {
-      doBack();
+      this.doBack();
     }
     sleep(2000);
 
   }
-}
+},
 /**
  * 返回操作
  */
-function doBack() {
+doBack:function () {
   let im = { name: "back" };
   Operate.doFun(im);
-}
+},
 
 /**
  * 处理页面的finish操作
  * @param {*} pageList 
  */
-function finishPage(pageList) {
+finishPage:function (pageList) {
   result = false;
   for (let k = pageList.length - 1; k >= 0; k--) {
     let item = pageList[k];
@@ -240,10 +234,6 @@ function finishPage(pageList) {
   }
   console.log('finishPage:', JSON.stringify(pageList), result);
   return result;
+},
 }
-
-//运行
-main();
-
-
-
+module.exports = app;

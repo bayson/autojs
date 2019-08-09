@@ -142,6 +142,7 @@ var operate = {
         return ls;
     },
 
+
     /**
      * 根据传入的属性，查找对应的节点并返回,OK
      * @param {*} mark 
@@ -149,50 +150,24 @@ var operate = {
      */
     findNode: function (mark, param) {
         let target = null;
-        // 有多个同样的，选择一个
+        // 有多个同样的，或者只有一个但是需要向上一级获取子节点
         if (!!param && !Utils.isNull(param.indexOf)) {
-            target = this.build(mark).find();
-            //没有找到尝试向上滚动一下找找
-            let maxTry = 1;
-            if (!Utils.isNull(param.indexOf.try) && param.indexOf.try > -1) {
-                maxTry = param.indexOf.try;
-            }
-            let tryt = maxTry;
-            while (tryt > 0 && target.length <= 0) {
-                // console.log('find node try down',tryt,target.length);
-                this.doSwipe({}, { count: 1 });
-                target = this.build(mark).find();
-                tryt--;
-            }
-            // 找到了处理一下
-            if (target.length > 0) {
-                if (typeof param.indexOf === 'number') {
-                    //取多个里的指定个
-                    if (param.indexOf == -1 || param.indexOf >= target.length) {
-                        target = target[target.length - 1];
-                    } else {
-                        target = target[param.indexOf];
-                    }
-                } else if (typeof param.indexOf === 'object'
-                    && typeof param.indexOf.get === 'object'
-                    && !Utils.isNull(param.indexOf.tag)
-                ) {
-                    let str = this.doGet(param.indexOf.get);
-                    // console.log('find node str:',str);
-                    target = eval('target.findOne(' + param.indexOf.tag + "(str))");
-                } else {
-                    target = target[0];
+            //需要向上一级获取子节点
+            if(!Utils.isNull(param.parent) && param.parent > 0){
+                target = this.build(mark).findOne();
+                let pLen = param.parent;
+                while(pLen > 0){
+                    target = target.parent;
+                    pLen--;
                 }
-            } else {
-                target = null;
+                target = target.children();
+            }else{
+                target = this.build(mark).find();
             }
-            //移动一段距离
-            while (maxTry - tryt > 0) {
-                // console.log('find node try up',tryt);
-                this.doSwipe({}, { count: 1, isUp: true });
-                tryt++;
-            }
-
+            //有多个同样的，根据param.indexOf过滤节点,选择一个
+            // {name:"click", mark:{id:"tv_userinfo"}, param:{indexOf:{tag:"text",try:10,get:{name:"given_weibo_title",uri:"api"}}}},
+            // {name:"click", mark:{id:"tv_userinfo"}, param:{indexOf:{tag:"text",try:10,default:"测试位置"}}},
+            target = this.indexOfNode(target, param);
         } else {
             //只会有一个的情况
             target = this.build(mark).findOnce();
@@ -202,6 +177,56 @@ var operate = {
         }
         return target;
 
+    },
+
+    indexOfNode: function (target, param) {
+        //没有找到尝试向上滚动一下找找
+        let maxTry = 1;
+        if (!Utils.isNull(param.indexOf.try) && param.indexOf.try > -1) {
+            maxTry = param.indexOf.try;
+        }
+        let tryt = maxTry;
+        while (tryt > 0 && target.length <= 0) {
+            // console.log('find node try down',tryt,target.length);
+            this.doSwipe({}, { count: 1 });
+            target = this.build(mark).find();
+            tryt--;
+        }
+        // 找到了处理一下
+        if (target.length > 0) {
+            if (typeof param.indexOf === 'number') {
+                //取多个里的指定个
+                if (param.indexOf == -1 || param.indexOf >= target.length) {
+                    target = target[target.length - 1];
+                } else {
+                    target = target[param.indexOf];
+                }
+            } else if (typeof param.indexOf === 'object'
+                && typeof param.indexOf.get === 'object'
+            ) {
+                if (!Utils.isNull(param.indexOf.tag)) {
+                    let str = this.doGet(param.indexOf.get);
+                    // console.log('find node str:',str);
+                    target = eval('target.findOne(' + param.indexOf.tag + "(str))");
+                } else if (!Utils.isNull(param.indexOf.default)) {
+                    let str = param.indexOf.default;
+                    target = eval('target.findOne(' + param.indexOf.tag + "(str))");
+                } else {
+                    target = target[0];
+                }
+            } else {
+                target = target[0];
+            }
+        } else {
+            target = null;
+        }
+        //移动一段距离
+        while (maxTry - tryt > 0) {
+            // console.log('find node try up',tryt);
+            this.doSwipe({}, { count: 1, isUp: true });
+            tryt++;
+        }
+        return target;
     },
     /**
      * 调用click执行点击操作,OK
@@ -427,6 +452,27 @@ var operate = {
     doEnter: function () {
         console.log('do enter');
         KeyCode("KEYCODE_ENTER");
+    },
+    /**
+     * 等待控件出现
+     * @param {*} mark 
+     * @param {*} param 
+     */
+    doWait: function (mark, param) {
+        console.log('do wait for');
+        let target = this.build(mark);
+        let msg = 'Wait For';
+        if (!Utils.isNull(mark.text)) {
+            msg += ':Text:' + mark.text;
+        }
+        if (!Utils.isNull(mark.desc)) {
+            msg += ':Desc:' + mark.desc;
+        }
+        if (!Utils.isNull(mark.id)) {
+            msg += ':Id:' + mark.id;
+        }
+        console.log(msg);
+        return target.waitFor();
     },
     /**
      * 
