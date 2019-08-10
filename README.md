@@ -30,7 +30,9 @@
 * 支付宝每日花呗红包
 * 支付宝体育服务早期打卡(TODO)
 ### 点赞、关注、收藏（TODO)
+* 新浪微博（Android,V9.6.3版本）
 ### 评价、回复、转发 (TODO)
+* 新浪微博（Android,V9.6.3版本）
 
 ## 必备条件
 1. webpack基于nodejs,电脑上必须安装nodejs.
@@ -56,9 +58,12 @@
 * 2.直接启动脚本即可
 * 3.暂时不支持解锁手机
 ## 展示:
-<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/autojs_01.png"/></div>
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-183918.png"/></div>
 <br>
 
+### 百度地图签到
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-183903png"/></div>
+<br>
 
 ## 感谢/引用：
 <a href="https://github.com/hyb1996/Auto.js">hyb1996</a>
