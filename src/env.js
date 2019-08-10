@@ -113,6 +113,10 @@ var Env = {
     ACCOUNT_SEND_CONFIRM: 36,
     REGISTER_OK: 37,
     UPDATED:38,
+    INPUT_PHONE: 39,
+    INPUT_PASSWORD: 40,
+    FIND_PASSWORD:41,
+  
   },
 
   /**

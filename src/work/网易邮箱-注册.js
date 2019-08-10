@@ -196,7 +196,7 @@ var Job = {
             operates: {
                 send: [
                     { name: "wait", mark:{className:"android.view.View", text: "恭喜您，" }},
-                    { name: "text", mark: { className:"android.view.View", textEndsWith: "已经注册成功！" } , param: { set: "name" } },
+                    // { name: "text", mark: { className:"android.view.View", textEndsWith: "已经注册成功！" } , param: { set: "name" } },
                     { name: "get", mark: { name: "register_ok", uri: "api" }, param: { } },
                     // 系统未收到短信，请重新发送短信验证
                 ],

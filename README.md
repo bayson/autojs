@@ -1,6 +1,10 @@
 # 基于AutoJs的安卓自动化测试脚本框架（AutoJson)
 ## 简介
 本程序是一个AutoJs的脚本框架，使用本框架后可以只需要修改JSON配置文件，就能自定义操作流程。目标是让不会写代码的人都能轻松自定义自己的脚本。目前已经实现了微博自动注册，远程获取微博内容，自动发布微博的功能！
+### 项目地址：
+【https://github.com/bayson/autojs】
+### Release: 
+【https://github.com/bayson/autojs-release】
 ### 登陆注册
 * 新浪微博（Android,V9.6.3版本）
 * 网易邮箱（QQ浏览器,网页注册）
@@ -52,7 +56,17 @@
 * 2.安卓5.0以上
 * 3.Auto.js软件版本4.0以上
 
-<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-183918.png"/></div>
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-222839.png"/></div>
+<br>
+
+### 网易邮箱-注册
+* 1.将脚本 ./dist/网易邮箱-注册.js 复制到AutoJs脚本目录下,默认目录是：/sdcard/脚本/
+* 2.启动QQ浏览器，并打开https://mail.163.com 网址， 再启动脚本"网易邮箱-注册"即可,
+* 3.如果遇到不能识别的页面手动点击就可以
+
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-222249.png"/></div>
+<br>
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-222256.png"/></div>
 <br>
 
 ### 百度地图-签到
@@ -64,6 +78,17 @@
 <br>
 <div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-183903.png"/></div>
 <br>
+
+### 叮咚买菜-签到
+* 1.将脚本 ./dist/叮咚买菜-签到.js 复制到AutoJs脚本目录下,默认目录是：/sdcard/脚本/
+* 2.直接启动脚本"叮咚买菜-签到"即可,
+* 3.如果遇到不能识别的页面手动点击就可以
+
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-222249.png"/></div>
+<br>
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-222256.png"/></div>
+<br>
+
 
 ## 感谢/参考：
 <a href="https://github.com/hyb1996/Auto.js">hyb1996</a>
