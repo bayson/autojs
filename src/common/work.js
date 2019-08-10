@@ -29,15 +29,16 @@ var work = {
   _pageList: [],
   _curStep: 0,
   _curJob: {},
-  _curRa: null,
-
-  init: function (package) {
+  
+  init: function (jib) {
     auto();
 
-    this._curRa = new RootAutomator();
+    var _curRa = new RootAutomator();
     events.on('exit', function () {
-      this._curRa.exit();
+      _curRa.exit();
     });
+
+    let package = jib.package;
 
     if (currentPackage() != package) {
       launch(package);
@@ -47,7 +48,6 @@ var work = {
     //远程获取配置
     Api.getConfig();
     toast('获取配置成功');
-    // console.log('获取配置成功：' + JSON.stringify(Env.config));
     console.log('获取配置成功');
     sleep(1000);
 
@@ -56,43 +56,60 @@ var work = {
   /**
    * 主函数
    */
-  main: function (jib) {
-    
+  main: function (jib, afterInit) {
+
     this._curJob = jib;
+    //初始化
+    this.init(this._curJob);
+
+    //执行回调
+    if (typeof afterInit === 'function') {
+      afterInit(this._curJob);
+    }
 
     Env.CLIENT = this._curJob.CLIENT;
 
-    let items = {
-      login: JSON.parse(JSON.stringify(this._curJob.login)),
-      nickname: JSON.parse(JSON.stringify(this._curJob.nickname)),
-      write: JSON.parse(JSON.stringify(this._curJob.write)),
-      logout: JSON.parse(JSON.stringify(this._curJob.logout)),
-    };
+    // let items = {
+    //   login: JSON.parse(JSON.stringify(this._curJob.login)),
+    //   nickname: JSON.parse(JSON.stringify(this._curJob.nickname)),
+    //   write: JSON.parse(JSON.stringify(this._curJob.write)),
+    //   logout: JSON.parse(JSON.stringify(this._curJob.logout)),
+    //   running: JSON.parse(JSON.stringify(this._curJob.running)),
+    // };
     //初始化
     while (true) {
       //判断下一步的位置
       this.nextStep();
-      //执行操作
-      switch (this._curStep) {
-        case this._curJob.STEP.LOGIN:
-          console.log('login');
-          this.run(items['login']);
-          break;
-        case this._curJob.STEP.NICKNAME:
-          console.log('nickname');
-          this.run(items['nickname']);
-          break;
-        case this._curJob.STEP.WRITE:
-          console.log('write');
-          this.run(items['write']);
-          break;
-        case this._curJob.STEP.NEEDLOGOUT:
-          console.log('logout');
-          this.run(items['logout']);
-          break;
-        default:
-          break;
+      for( let item of this._curJob.default.steps){
+          if(item.step == this._curStep){
+            this.run(JSON.parse(JSON.stringify(item)));
+          }
       }
+      // //执行操作
+      // switch (this._curStep) {
+      //   case Env.STEP.LOGIN:
+      //     console.log('login');
+      //     this.run(items['login']);
+      //     break;
+      //   case Env.STEP.NICKNAME:
+      //     console.log('nickname');
+      //     this.run(items['nickname']);
+      //     break;
+      //   case Env.STEP.WRITE:
+      //     console.log('write');
+      //     this.run(items['write']);
+      //     break;
+      //   case Env.STEP.NEEDLOGOUT:
+      //     console.log('logout');
+      //     this.run(items['logout']);
+      //     break;
+      //   case Env.STEP.RUNNING:
+      //     console.log('running');
+      //     this.run(items['running']);
+      //     break;
+      //   default:
+      //     break;
+      // }
       sleep(3000);
     }
 
@@ -152,7 +169,7 @@ var work = {
           break;
         }
       }
-      console.log('in do page job 1:', JSON.stringify(_job));
+      // console.log('in do page job 1:', JSON.stringify(_job));
       if (_job == null) {
         for (let m in this._curJob.default.someone) {
           if (conf.pageid === this._curJob.default.someone[m].pageid) {
@@ -164,20 +181,20 @@ var work = {
           }
         }
       }
-      console.log('in do page job:', JSON.stringify(_job));
+      // console.log('in do page job:', JSON.stringify(_job));
       if (_job != null) {
         if (!!_job.next) {
           this._curStep = _job.next;
         }
-        console.log('in do page this._curjob.jobs:', JSON.stringify(_job.jobs));
+        // console.log('in do page this._curjob.jobs:', JSON.stringify(_job.jobs));
         if (!!_job && !!_job.jobs) {
           for (let im of _job.jobs) {
-            console.log('in do page conf.mark:', JSON.stringify(conf.mark));
+            // console.log('in do page conf.mark:', JSON.stringify(conf.mark));
             if (Operate.isPage(conf.mark)) {
-              console.log('loop job:', JSON.stringify(im));
+              // console.log('loop job:', JSON.stringify(im));
               Operate.doFun(im);
             } else {
-              console.log('not in right page:', conf.name);
+              // console.log('not in right page:', conf.name);
               break;
             }
           }

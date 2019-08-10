@@ -234,6 +234,7 @@ var api={
 
   getRegisterOk: function (){
     let msg = {name:Env.curName,phone:Env.curPhone,item:Env.itemRegister,client:Env.CLIENT};
+    console.log('register ok:',msg);
     return this.loginOk(Env.curPhone,Env.curName,'register',JSON.stringify(msg));
   },
   

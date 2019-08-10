@@ -472,6 +472,7 @@ var operate = {
             msg += ':Id:' + mark.id;
         }
         console.log(msg);
+        toast(msg);
         return target.waitFor();
     },
     /**

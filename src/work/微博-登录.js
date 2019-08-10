@@ -1,30 +1,30 @@
 /**
-* @fileOverview 微博自动化控制脚本
+* @fileOverview 入口文件
 * @description 本脚本在Auto.Js 4.0.1版本中，自动化控制Android微博版本号:9.6.3版测试通过！
+* 欢迎使用和提交bug反馈
+* 设备要求：
+* 1.需要root
+* 2.安卓5.0以上
+* 3.Auto.js软件版本4.0以上
+*
+* 使用方法：
+* 1.将脚本与./dist/main.js放于同一目录下
+* 2.直接启动脚本即可
+* 3.暂时不支持解锁手机
+*
 * @author <a href=”tuple@youshui.ren”>Tuple</a>
 * @version 0.1
 */
 
-
+var Work = require('../common/work');
 var Env = require('../env');
 
 /**
  * 注意：如果一个页面有多个特征码匹配，以最后一个为准
  */
-var job = {
-    /**
-     * @description 定义各步骤的标志
-     */
-    STEP: {
-        NOCHANGE: 0,
-        LOGIN: 1,
-        WRITE: 3,
-        LOGOUT: 9,
-        NICKNAME: 2,
-        ISSTEP: 5,
-        NEEDLOGOUT: 6,
-        LOGINED: 7,
-    },
+var Job = {
+    CLIENT:'weibo',
+    package:'com.sina.weibo',
 
     /**
      * @description 默认配置，自动加载
@@ -43,24 +43,24 @@ var job = {
              * @description 定义可能遇到的页面默认处理方式; next:为强制跳转，pageid:为页面ID，jobs:为具体的执行操作
              */
             someone: [
-                { next: this.STEP.LOGIN, pageid: Env.PageEnum.LOGIN, jobs: this.pages.LOGIN.operates.login },
-                { next: this.STEP.LOGIN, pageid: Env.PageEnum.INPUT_CODE, jobs: this.pages.INPUT_CODE.operates.code },
-                { next: this.STEP.WRITE, pageid: Env.PageEnum.DETAIL, jobs: this.pages.DETAIL.operates.follow },
-                { next: this.STEP.WRITE, pageid: Env.PageEnum.HOME_HOT, jobs: this.pages.HOME_HOT.operates.write },
-                { next: this.STEP.WRITE, pageid: Env.PageEnum.HOME_FOLLOW, jobs: this.pages.HOME_FOLLOW.operates.write },
-                { next: this.STEP.WRITE, pageid: Env.PageEnum.MINE, jobs: this.pages.MINE.operates.nickname },
-                { next: this.STEP.WRITE, pageid: Env.PageEnum.MINE, jobs: this.pages.MINE.operates.home },
-                { next: this.STEP.WRITE, pageid: Env.PageEnum.WRITE_WEIBO, jobs: this.pages.WRITE_WEIBO.operates.write },
-                { next: this.STEP.WRITE, pageid: Env.PageEnum.EDIT_SHARE, jobs: this.pages.EDIT_SHARE.operates.comment },
-                { next: this.STEP.LOGOUT, pageid: Env.PageEnum.MINE, jobs: this.pages.MINE.operates.setting },
-                { next: this.STEP.LOGOUT, pageid: Env.PageEnum.SETTING, jobs: this.pages.SETTING.operates.accounts },
-                { next: this.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNTS, jobs: this.pages.ACCOUNTS.operates.add },
-                { next: this.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_2, jobs: this.pages.ACCOUNT_ERROR_2.operates.next },
-                { next: this.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_3, jobs: this.pages.ACCOUNT_ERROR_3.operates.next },
-                { next: this.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_4, jobs: this.pages.ACCOUNT_ERROR_4.operates.next },
-                { next: this.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_5, jobs: this.pages.ACCOUNT_ERROR_5.operates.next },
-                { next: this.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_CONFIRM, jobs: this.pages.ACCOUNT_CONFIRM.operates.finish },
-                { next: this.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR, jobs: this.pages.ACCOUNT_ERROR.operates.cancel },
+                { next: Env.STEP.LOGIN, pageid: Env.PageEnum.LOGIN, jobs: this.pages.LOGIN.operates.login },
+                { next: Env.STEP.LOGIN, pageid: Env.PageEnum.INPUT_CODE, jobs: this.pages.INPUT_CODE.operates.code },
+                { next: Env.STEP.WRITE, pageid: Env.PageEnum.DETAIL, jobs: this.pages.DETAIL.operates.follow },
+                { next: Env.STEP.WRITE, pageid: Env.PageEnum.HOME_HOT, jobs: this.pages.HOME_HOT.operates.write },
+                { next: Env.STEP.WRITE, pageid: Env.PageEnum.HOME_FOLLOW, jobs: this.pages.HOME_FOLLOW.operates.write },
+                { next: Env.STEP.WRITE, pageid: Env.PageEnum.MINE, jobs: this.pages.MINE.operates.nickname },
+                { next: Env.STEP.WRITE, pageid: Env.PageEnum.MINE, jobs: this.pages.MINE.operates.home },
+                { next: Env.STEP.WRITE, pageid: Env.PageEnum.WRITE_WEIBO, jobs: this.pages.WRITE_WEIBO.operates.write },
+                { next: Env.STEP.WRITE, pageid: Env.PageEnum.EDIT_SHARE, jobs: this.pages.EDIT_SHARE.operates.comment },
+                { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.MINE, jobs: this.pages.MINE.operates.setting },
+                { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.SETTING, jobs: this.pages.SETTING.operates.accounts },
+                { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNTS, jobs: this.pages.ACCOUNTS.operates.add },
+                { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_2, jobs: this.pages.ACCOUNT_ERROR_2.operates.next },
+                { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_3, jobs: this.pages.ACCOUNT_ERROR_3.operates.next },
+                { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_4, jobs: this.pages.ACCOUNT_ERROR_4.operates.next },
+                { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_5, jobs: this.pages.ACCOUNT_ERROR_5.operates.next },
+                { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_CONFIRM, jobs: this.pages.ACCOUNT_CONFIRM.operates.finish },
+                { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR, jobs: this.pages.ACCOUNT_ERROR.operates.cancel },
             ],
         }
     },
@@ -69,27 +69,27 @@ var job = {
      */
     get login() {
         return {
-            step: this.STEP.LOGIN,
+            step: Env.STEP.LOGIN,
             must: [
                 { pageid: Env.PageEnum.LOGIN, jobs: this.pages.LOGIN.operates.login },
                 { pageid: Env.PageEnum.INPUT_CODE, jobs: this.pages.INPUT_CODE.operates.code },
             ],
             someone: [
-                { next: this.STEP.LOGOUT, pageid: Env.PageEnum.HOME_HOT, jobs: this.pages.HOME_HOT.operates.mine },
-                { next: this.STEP.LOGOUT, pageid: Env.PageEnum.HOME_FOLLOW, jobs: this.pages.HOME_FOLLOW.operates.mine },
-                { next: this.STEP.NOCHANGE, pageid: Env.PageEnum.ACCOUNT_CONFIRM, jobs: this.pages.ACCOUNT_CONFIRM.operates.finish },
-                { next: this.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR, jobs: this.pages.ACCOUNT_ERROR.operates.cancel },
-                { next: this.STEP.NOCHANGE, pageid: Env.PageEnum.WELCOME_CAMEBACK, jobs: this.pages.WELCOME_CAMEBACK.operates.next },
-                { next: this.STEP.NOCHANGE, pageid: Env.PageEnum.SELECT_CLASS, jobs: this.pages.SELECT_CLASS.operates.next },
-                { next: this.STEP.NOCHANGE, pageid: Env.PageEnum.RECOMMEND, jobs: this.pages.RECOMMEND.operates.next },
-                { next: this.STEP.NOCHANGE, pageid: Env.PageEnum.SIGEN, jobs: this.pages.SIGEN.operates.finish },
-                { next: this.STEP.NOCHANGE, pageid: Env.PageEnum.USER_CENTER, jobs: this.pages.USER_CENTER.operates.finish },
-                { next: this.STEP.NOCHANGE, pageid: Env.PageEnum.WELCOME_WEIBO, jobs: this.pages.WELCOME_WEIBO.operates.next },
-                { next: this.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_2, jobs: this.pages.ACCOUNT_ERROR_2.operates.next },
-                { next: this.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_3, jobs: this.pages.ACCOUNT_ERROR_3.operates.next },
-                { next: this.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_4, jobs: this.pages.ACCOUNT_ERROR_4.operates.next },
-                { next: this.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_5, jobs: this.pages.ACCOUNT_ERROR_5.operates.next },
-                { next: this.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_6, jobs: this.pages.ACCOUNT_ERROR_6.operates.next },
+                { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.HOME_HOT, jobs: this.pages.HOME_HOT.operates.mine },
+                { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.HOME_FOLLOW, jobs: this.pages.HOME_FOLLOW.operates.mine },
+                { next: Env.STEP.NOCHANGE, pageid: Env.PageEnum.ACCOUNT_CONFIRM, jobs: this.pages.ACCOUNT_CONFIRM.operates.finish },
+                { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR, jobs: this.pages.ACCOUNT_ERROR.operates.cancel },
+                { next: Env.STEP.NOCHANGE, pageid: Env.PageEnum.WELCOME_CAMEBACK, jobs: this.pages.WELCOME_CAMEBACK.operates.next },
+                { next: Env.STEP.NOCHANGE, pageid: Env.PageEnum.SELECT_CLASS, jobs: this.pages.SELECT_CLASS.operates.next },
+                { next: Env.STEP.NOCHANGE, pageid: Env.PageEnum.RECOMMEND, jobs: this.pages.RECOMMEND.operates.next },
+                { next: Env.STEP.NOCHANGE, pageid: Env.PageEnum.SIGEN, jobs: this.pages.SIGEN.operates.finish },
+                { next: Env.STEP.NOCHANGE, pageid: Env.PageEnum.USER_CENTER, jobs: this.pages.USER_CENTER.operates.finish },
+                { next: Env.STEP.NOCHANGE, pageid: Env.PageEnum.WELCOME_WEIBO, jobs: this.pages.WELCOME_WEIBO.operates.next },
+                { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_2, jobs: this.pages.ACCOUNT_ERROR_2.operates.next },
+                { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_3, jobs: this.pages.ACCOUNT_ERROR_3.operates.next },
+                { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_4, jobs: this.pages.ACCOUNT_ERROR_4.operates.next },
+                { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_5, jobs: this.pages.ACCOUNT_ERROR_5.operates.next },
+                { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_6, jobs: this.pages.ACCOUNT_ERROR_6.operates.next },
             ],
         }
 
@@ -99,7 +99,7 @@ var job = {
      */
     get write() {
         return {
-            step: this.STEP.WRITE,
+            step: Env.STEP.WRITE,
             must: [
                 { isLogined: true, pageid: Env.PageEnum.HOME_FOLLOW, jobs: this.pages.HOME_FOLLOW.operates.write },
                 { isLogined: true, pageid: Env.PageEnum.WRITE_WEIBO, jobs: this.pages.WRITE_WEIBO.operates.write },
@@ -113,7 +113,7 @@ var job = {
      */
     get logout() {
         return {
-            step: this.STEP.LOGOUT,
+            step: Env.STEP.LOGOUT,
             must: [
                 { pageid: Env.PageEnum.HOME_FOLLOW, jobs: this.pages.HOME_FOLLOW.operates.mine },
                 { pageid: Env.PageEnum.MINE, jobs: this.pages.MINE.operates.setting },
@@ -128,7 +128,7 @@ var job = {
      */
     get nickname() {
         return {
-            step: this.STEP.NICKNAME,
+            step: Env.STEP.NICKNAME,
             must: [
                 { pageid: Env.PageEnum.HOME_FOLLOW, jobs: this.pages.HOME_FOLLOW.operates.mine },
                 { pageid: Env.PageEnum.MINE, jobs: this.pages.MINE.operates.nickname },
@@ -509,6 +509,17 @@ var job = {
         },
     },
 };
-module.exports = job;
+
+/**
+ * 初始化后执行
+ */
+function afterInit() {
+  sleep(1000);
+}
+
+var __curJob = JSON.parse(JSON.stringify(Job));
+//运行
+Work.main(Job, afterInit);
+
 
 

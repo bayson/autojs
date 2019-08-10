@@ -1,32 +1,31 @@
 /**
-* @fileOverview 微博自动化控制脚本
+* @fileOverview 入口文件
 * @description 本脚本在Auto.Js 4.0.1版本中，自动化控制Android微博版本号:9.6.3版测试通过！
+* 欢迎使用和提交bug反馈
+* 设备要求：
+* 1.需要root
+* 2.安卓5.0以上
+* 3.Auto.js软件版本4.0以上
+*
+* 使用方法：
+* 1.将脚本与./dist/main.js放于同一目录下
+* 2.直接启动脚本即可
+* 3.暂时不支持解锁手机
+*
 * @author <a href=”tuple@youshui.ren”>Tuple</a>
 * @version 0.1
 */
 
 
+var Work = require("../common/work");
 var Env = require('../env');
 
 /**
  * 注意：如果一个页面有多个特征码匹配，以最后一个为准
  */
-var job = {
+var Job = {
     CLIENT:'mail.163.com',
-    /**
-     * @description 定义各步骤的标志
-     */
-    STEP: {
-        NOCHANGE: 0,
-        LOGIN: 1,
-        WRITE: 3,
-        LOGOUT: 9,
-        NICKNAME: 2,
-        ISSTEP: 5,
-        NEEDLOGOUT: 6,
-        LOGINED: 7,
-    },
-
+    package:'com.tencent.mtt',
     /**
      * @description 默认配置，自动加载
      */
@@ -44,12 +43,12 @@ var job = {
              * @description 定义可能遇到的页面默认处理方式; next:为强制跳转，pageid:为页面ID，jobs:为具体的执行操作
              */
             someone: [
-                { next: this.STEP.LOGIN, pageid: Env.PageEnum.LOGIN, jobs: this.pages.LOGIN.operates.register },
-                { next: this.STEP.LOGIN, pageid: Env.PageEnum.SELECT_CLASS, jobs: this.pages.SELECT_CLASS.operates.next },
-                { next: this.STEP.LOGIN, pageid: Env.PageEnum.REGISTER, jobs: this.pages.REGISTER.operates.input },
-                { next: this.STEP.LOGIN, pageid: Env.PageEnum.ACCOUNT_CONFIRM, jobs: this.pages.ACCOUNT_CONFIRM.operates.input },
-                { next: this.STEP.LOGIN, pageid: Env.PageEnum.ACCOUNT_SEND_CONFIRM, jobs: this.pages.ACCOUNT_SEND_CONFIRM.operates.send },
-                { next: this.STEP.LOGIN, pageid: Env.PageEnum.REGISTER_OK, jobs: this.pages.REGISTER_OK.operates.send },
+                { next: Env.STEP.LOGIN, pageid: Env.PageEnum.LOGIN, jobs: this.pages.LOGIN.operates.register },
+                { next: Env.STEP.LOGIN, pageid: Env.PageEnum.SELECT_CLASS, jobs: this.pages.SELECT_CLASS.operates.next },
+                { next: Env.STEP.LOGIN, pageid: Env.PageEnum.REGISTER, jobs: this.pages.REGISTER.operates.input },
+                { next: Env.STEP.LOGIN, pageid: Env.PageEnum.ACCOUNT_CONFIRM, jobs: this.pages.ACCOUNT_CONFIRM.operates.input },
+                { next: Env.STEP.LOGIN, pageid: Env.PageEnum.ACCOUNT_SEND_CONFIRM, jobs: this.pages.ACCOUNT_SEND_CONFIRM.operates.send },
+                { next: Env.STEP.LOGIN, pageid: Env.PageEnum.REGISTER_OK, jobs: this.pages.REGISTER_OK.operates.send },
             ],
         }
     },
@@ -58,7 +57,7 @@ var job = {
      */
     get login() {
         return {
-            step: this.STEP.LOGIN,
+            step: Env.STEP.LOGIN,
             must: [
                 { pageid: Env.PageEnum.REGISTER, jobs: this.pages.REGISTER.operates.input },
                 { pageid: Env.PageEnum.ACCOUNT_SEND_CONFIRM, jobs: this.pages.ACCOUNT_SEND_CONFIRM.operates.send },
@@ -74,7 +73,7 @@ var job = {
      */
     get write() {
         return {
-            step: this.STEP.WRITE,
+            step: Env.STEP.WRITE,
             must: [
             ],
             someone: [],
@@ -85,7 +84,7 @@ var job = {
      */
     get logout() {
         return {
-            step: this.STEP.LOGOUT,
+            step: Env.STEP.LOGOUT,
             must: [
             ],
             someone: [],
@@ -96,7 +95,7 @@ var job = {
      */
     get nickname() {
         return {
-            step: this.STEP.NICKNAME,
+            step: Env.STEP.NICKNAME,
             must: [
             ],
             someone: [],
@@ -208,11 +207,11 @@ var job = {
             operates: {
                 send: [
                     { name: "get", mark: { name: "register_send_code", uri: "api" }, param: { }},
-                    { name: "sleep", param:{delay:5000}},
+                    { name: "sleep", param:{delay:15000}},
                     { name: "click", mark: { className:"android.view.View", text: "我已发送短信，注册" } },
-                    { name: "sleep", param:{delay:20000}},
-                    { name: "click", mark: { className:"android.view.View", text: "我已发送短信，注册" } },
-                    // 系统未收到短信，请重新发送短信验证
+                    // { name: "sleep", param:{delay:10000}},
+                    // { name: "click", mark: { className:"android.view.View", text: "我已发送短信，注册" } },
+                    // // 系统未收到短信，请重新发送短信验证
                 ],
                 finish: [{ name: "sleep" }],
             },
@@ -251,6 +250,13 @@ var job = {
         },
     },
 };
-module.exports = job;
+/**
+ * 初始化并获取配置
+ */
+function afterInit() {
+  sleep(1000);
+}
 
-
+var __curJob = JSON.parse(JSON.stringify(Job));
+//运行
+Work.main(__curJob,afterInit);

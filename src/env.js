@@ -43,9 +43,9 @@ var Env = {
   curPhone: '', //当前使用的手机号
   curLoginCode: '',
   curHotTextItem: '',
-  curUsername:'',
-  curPassword:'',
-  curRegisterCode:'',
+  curUsername: '',
+  curPassword: '',
+  curRegisterCode: '',
   itemRegister: '47028', //网易邮箱
   // console.show(),
   config: {
@@ -101,17 +101,32 @@ var Env = {
     ADD_FOLLOW_WITH_SHARE: 23,
     ACCOUNT_ERROR: 24,
     WELCOME_CAMEBACK: 25,
-    WRITE_WEIBO:26,
+    WRITE_WEIBO: 26,
     WELCOME_WEIBO: 27,
-    ACCOUNT_ERROR_2:28,
-    ACCOUNT_ERROR_3:29,
-    ACCOUNT_ERROR_4:30,
-    HOME:31,
-    ACCOUNT_ERROR_5:32,
-    ACCOUNT_ERROR_6:33,
-    REGISTER:35,
-    ACCOUNT_SEND_CONFIRM:36,
-    REGISTER_OK:37,
+    ACCOUNT_ERROR_2: 28,
+    ACCOUNT_ERROR_3: 29,
+    ACCOUNT_ERROR_4: 30,
+    HOME: 31,
+    ACCOUNT_ERROR_5: 32,
+    ACCOUNT_ERROR_6: 33,
+    REGISTER: 35,
+    ACCOUNT_SEND_CONFIRM: 36,
+    REGISTER_OK: 37,
+  },
+
+  /**
+ * @description 定义各步骤的标志
+ */
+  STEP: {
+    NOCHANGE: 0,
+    LOGIN: 1,
+    WRITE: 3,
+    LOGOUT: 9,
+    NICKNAME: 2,
+    ISSTEP: 5,
+    NEEDLOGOUT: 6,
+    LOGINED: 7,
+    RUNNING: 8,
   },
 
 }

@@ -9,7 +9,6 @@ var Env = require('../env');
 var Api = require('../common/api');
 var Utils = require('../common/utils');
 var Operate = require('../common/operate');
-var Job = require('../jobs/weibo');
 
 
 function test() {

@@ -1,15 +1,30 @@
 // webpack.config.js
 
 const path = require('path');
+const glob = require('glob');
+
 var addUI = require('./addUI');
 
+// let  entry = getEntry('./src/work/**.js');
+
+function getEntry(globPath, options) {
+  options = options || {};
+  var entries = {},
+      basename, tmp, pathname;
+
+  glob.sync(globPath, options).forEach(function (entry) {
+      pathname = entry.replace(/\.js$/,'').replace(/^\.\/src\/work\//,'');
+      let fpath = entry;
+      if(options.cwd){
+          fpath = path.join(options.cwd, entry);
+      }
+      entries[pathname] = [fpath];
+  });
+  return entries;
+}
+
 var config = {
-  entry: {
-    main: './src/index.js',
-    新浪微博: './src/weibo.js',
-    网易邮箱: './src/mail.163.com.js',
-    test: './src/test/test.js'
-  },
+  entry: getEntry('./src/work/**.js'),
   output: {
     // filename: 'main.js',
     //注意：使用[name]确保每个文件名都不重复
@@ -21,6 +36,8 @@ var config = {
     new addUI({ options: true })
   ]
 };
+
+
 
 module.exports = (env, argv) => {
 
