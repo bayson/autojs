@@ -46,7 +46,7 @@
 4. npm run build
 5. 复制 ./dist/新浪微博.js ,  ./dist/网易邮箱.js  到你的AutoJs脚本目录默认是：/sdcard/脚本/
 ## 使用说明
-* 欢迎使用和提交bug反馈
+欢迎使用和提交bug反馈
 * 【设备要求】：
 * 1.需要root
 * 2.安卓5.0以上
@@ -65,7 +65,7 @@
 <div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-183903.png"/></div>
 <br>
 
-## 感谢/引用：
+## 感谢/参考：
 <a href="https://github.com/hyb1996/Auto.js">hyb1996</a>
 <br>
 <a href="https://github.com/snailuncle/webpackBaleAutojs">snailuncle</a>
