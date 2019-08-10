@@ -61,12 +61,42 @@
 
 ### 网易邮箱-注册
 * 1.将脚本 ./dist/网易邮箱-注册.js 复制到AutoJs脚本目录下,默认目录是：/sdcard/脚本/
-* 2.启动QQ浏览器，并打开https://mail.163.com 网址， 再启动脚本"网易邮箱-注册"即可,
+* 2.启动QQ浏览器，并打开网址 https://mail.163.com ， 再启动脚本"网易邮箱-注册"即可,脚本如不会启动请参考AutoJs的文档
 * 3.如果遇到不能识别的页面手动点击就可以
 
-<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-222249.png"/></div>
+* 广告页
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-223143.png"/></div>
 <br>
-<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-222256.png"/></div>
+
+* 登录页
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-223208.png"/></div>
+<br>
+
+* 注册页：注意页面红框的地方要手动点一下，点成显示密码才行
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-223220.png"/></div>
+<br>
+
+* 验证页：本页要手动点，没有实现自动点
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-223233.png"/></div>
+<br>
+
+* 手机验证码输入；已经对接验证码平台，手机号会自动远程获取
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-223315.png"/></div>
+<br>
+
+* 发验证短信页：已经对接验证码平台，会自动发送短信
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-223336.png"/></div>
+<br>
+
+* 注册成功页
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-223416.png"/></div>
+<br>
+
+* 成功跳转页
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-223427.png"/></div>
+<br>
+* 注册采用的QQ浏览器版本号
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-223640.png"/></div>
 <br>
 
 ### 百度地图-签到
