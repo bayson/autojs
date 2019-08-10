@@ -44,25 +44,25 @@
 2. cd autojs
 3. npm i
 4. npm run build
-5. 复制 ./dist/新浪微博.js ,  ./dist/网易邮箱.js  到你的AutoJs脚本目录
+5. 复制 ./dist/新浪微博.js ,  ./dist/网易邮箱.js  到你的AutoJs脚本目录默认是：/sdcard/脚本/
 ## 使用说明
 * 欢迎使用和提交bug反馈
-### 设备要求：
+* 【设备要求】：
 * 1.需要root
 * 2.安卓5.0以上
 * 3.Auto.js软件版本4.0以上
 
-*
-### 使用方法：
-* 1.将脚本放于AutoJs脚本目录下
-* 2.直接启动脚本即可
-* 3.暂时不支持解锁手机
-## 展示:
 <div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-183918.png"/></div>
 <br>
 
-### 百度地图签到
-<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-183903png"/></div>
+### 百度地图-签到
+* 1.将脚本 ./dist/百度地图-签到.js 复制到AutoJs脚本目录下,默认目录是：/sdcard/脚本/
+* 2.直接启动脚本"百度地图-签到"即可,
+* 3.如果遇到不能识别的页面手动点击就可以
+
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-190455.png"/></div>
+<br>
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-183903.png"/></div>
 <br>
 
 ## 感谢/引用：

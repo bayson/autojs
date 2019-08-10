@@ -46,7 +46,9 @@ var Job = {
       someone: [
         { next: Env.STEP.RUNNING, pageid: Env.PageEnum.UPDATED, jobs: this.pages.UPDATED.operates.next },
         { next: Env.STEP.RUNNING, pageid: Env.PageEnum.HOME, jobs: this.pages.HOME.operates.next},
-        { next: Env.STEP.RUNNING, pageid: Env.PageEnum.SIGEN, jobs: this.pages.SIGEN.operates.next, exit:true},
+        { next: Env.STEP.RUNNING, pageid: Env.PageEnum.MINE, jobs: this.pages.MINE.operates.next},
+        { next: Env.STEP.RUNNING, pageid: Env.PageEnum.SIGEN, jobs: this.pages.SIGEN.operates.next},
+        { next: Env.STEP.RUNNING, pageid: Env.PageEnum.HOME_MESSAGE, jobs: this.pages.HOME_MESSAGE.operates.next, exit:true},
       ],
     }
   },
@@ -59,7 +61,9 @@ var Job = {
       must: [
         { pageid: Env.PageEnum.UPDATED, jobs: this.pages.UPDATED.operates.next },
         { pageid: Env.PageEnum.HOME, jobs: this.pages.HOME.operates.next },
-        { pageid: Env.PageEnum.SIGEN, jobs: this.pages.SIGEN.operates.next, exit:true },
+        { pageid: Env.PageEnum.MINE, jobs: this.pages.MINE.operates.next },
+        { pageid: Env.PageEnum.SIGEN, jobs: this.pages.SIGEN.operates.next },
+        { pageid: Env.PageEnum.HOME_MESSAGE, jobs: this.pages.HOME_MESSAGE.operates.next, exit:true },
       ],
       someone: [],
     }
@@ -86,10 +90,10 @@ var Job = {
     },
 
 
-    HOME: {
-      desc: "签到",
-      name: "签到",
-      pageid: Env.PageEnum.HOME,
+    MINE: {
+      desc: "个人中心",
+      name: "个人中心",
+      pageid: Env.PageEnum.MINE,
       // mark: { className:"android.view.View", text: "编辑短信：注册验证" },
       mark: { id: "user_info_user_head_icon" },
       next: [],
@@ -100,6 +104,23 @@ var Job = {
           { name: "click", mark: { id: "ll_lv_signin" } },
           { name: "sleep"},
           { name: "click", mark: { text: "不选择地点" } },
+          { name: "sleep"},
+        ],
+        finish: [{ name: "back" }],
+      },
+    },
+
+
+    HOME: {
+      desc: "首页",
+      name: "首页",
+      pageid: Env.PageEnum.HOME,
+      // mark: { className:"android.view.View", text: "编辑短信：注册验证" },
+      mark: { id: "user_head_portrait_icon" },
+      next: [],
+      operates: {
+        next: [
+          { name: "click", mark: { id: "user_head_portrait_icon" } },
           { name: "sleep"},
         ],
         finish: [{ name: "back" }],
@@ -120,6 +141,22 @@ var Job = {
           { name: "click", mark: { id: "sign_name" } },
           { name: "sleep"},
         ],
+      },
+    },
+
+    HOME_MESSAGE: {
+      desc: "聊天页面",
+      name: "聊天页面",
+      pageid: Env.PageEnum.HOME_MESSAGE,
+      // mark: { className:"android.view.View", text: "编辑短信：注册验证" },
+      mark: { id:"user_sys_question_btn"},
+      next: [],
+      operates: {
+        next: [
+          { name: "click", mark: { id: "iv_left_btn" } },
+          { name: "sleep"},
+        ],
+        finish: [{ name: "back" }],
       },
     },
   },
