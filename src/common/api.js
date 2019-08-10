@@ -29,6 +29,7 @@ var api={
                 Env.token = !!Env.config.token ? Env.config.token : Env.token;
                 Env.itemJihuo = !!Env.config.itemJihuo ? Env.config.itemJihuo : Env.itemJihuo;
                 Env.itemLogin = !!Env.config.itemLogin ? Env.config.itemLogin : Env.itemLogin;
+                Env.itemRegister = !!Env.config.itemRegister ? Env.config.itemRegister : Env.itemRegister;
                 Env.exceptPhone = !!Env.config.exceptPhone ? Env.config.exceptPhone : Env.exceptPhone;          
                 Env.canReply = Env.config.canReplyDisabled ? Env.canReply : Env.config.canReply;
                 Env.config.debug ? console.show() : console.hide();
@@ -234,7 +235,13 @@ var api={
 
   getRegisterOk: function (){
     let msg = {name:Env.curName,phone:Env.curPhone,item:Env.itemRegister,client:Env.CLIENT};
-    console.log('register ok:',msg);
+    console.log('register ok:',msg)
+    return this.loginOk(Env.curPhone,Env.curName,'register',JSON.stringify(msg));
+  },
+
+  finish: function (){
+    let msg = {name:Env.curName,phone:Env.curPhone,item:Env.itemRegister,client:Env.CLIENT};
+    console.log('register ok:',msg)
     return this.loginOk(Env.curPhone,Env.curName,'register',JSON.stringify(msg));
   },
   

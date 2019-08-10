@@ -24,9 +24,9 @@ var Env = require('../env');
  * 注意：如果一个页面有多个特征码匹配，以最后一个为准
  */
 var Job = {
-  CLIENT: '云闪付-签到',
-  package: 'com.unionpay',
-  activity: "com.unionpay.activity.UPActivityMain",
+  CLIENT: '百度地图-签到',
+  package: 'com.baidu.BaiduMap',
+  activity: "com.baidu.baidumaps.MapsActivity",
   /**
    * @description 默认配置，自动加载
    */
@@ -44,9 +44,9 @@ var Job = {
        * @description 定义可能遇到的页面默认处理方式; next:为强制跳转，pageid:为页面ID，jobs:为具体的执行操作
        */
       someone: [
-        { next: Env.STEP.RUNNING, pageid: Env.PageEnum.SELECT_CLASS, jobs: this.pages.SELECT_CLASS.operates.next },
-        { next: Env.STEP.RUNNING, pageid: Env.PageEnum.HOME, jobs: this.pages.HOME.operates.next },
-        { next: Env.STEP.RUNNING, pageid: Env.PageEnum.LOGIN, jobs: this.pages.LOGIN.operates.next },
+        { next: Env.STEP.RUNNING, pageid: Env.PageEnum.UPDATED, jobs: this.pages.UPDATED.operates.next },
+        { next: Env.STEP.RUNNING, pageid: Env.PageEnum.HOME, jobs: this.pages.HOME.operates.next},
+        { next: Env.STEP.RUNNING, pageid: Env.PageEnum.SIGEN, jobs: this.pages.SIGEN.operates.next, exit:true},
       ],
     }
   },
@@ -57,9 +57,9 @@ var Job = {
     return {
       step: Env.STEP.RUNNING,
       must: [
-        { pageid: Env.PageEnum.SELECT_CLASS, jobs: this.pages.SELECT_CLASS.operates.next },
+        { pageid: Env.PageEnum.UPDATED, jobs: this.pages.UPDATED.operates.next },
         { pageid: Env.PageEnum.HOME, jobs: this.pages.HOME.operates.next },
-        { pageid: Env.PageEnum.LOGIN, jobs: this.pages.LOGIN.operates.next },
+        { pageid: Env.PageEnum.SIGEN, jobs: this.pages.SIGEN.operates.next, exit:true },
       ],
       someone: [],
     }
@@ -72,48 +72,54 @@ var Job = {
    * 定义页面的识别标志及具体的各操作
    */
   pages: {
-    SELECT_CLASS: {
+    UPDATED: {
       desc: "关闭更新弹窗",
       name: "关闭更新弹窗",
-      pageid: Env.PageEnum.SELECT_CLASS,
-      mark: { id: "btn_cancel" },
+      pageid: Env.PageEnum.UPDATED,
+      mark: { id: "cancel_update" },
       next: [],
       operates: {
         next: [
-          { name: "click", mark: { id: "btn_cancel" } },
+          { name: "click", mark: { id: "cancel_update" } },
         ]
       },
     },
-    LOGIN: {
-      desc: "进入签到页按钮",
-      name: "进入签到页按钮",
-      /** 
-       * mark: 页面的标志控件，当页面找到匹配mark属性的控件时，我们认为它就位于这个页面 
-       * mark可能的属性：id,text,desc,className,textStartsWith,textEndsWith,
-       * descStartsWith,descEndsWith 具体可以参考<a href="https://hyb1996.github.io/AutoJs-Docs/#/widgetsBasedAutomation?id=uiselector">Autojs控件uiselector的函数</a>
-       */
-      mark: { id: "frog_float_gif" },
-      pageid: Env.PageEnum.LOGIN,
-      next: [],
-      operates: {
-        next: [
-          { name: "click", mark: { id: "frog_float_gif" } },
-        ],
-      },
-    },
+
 
     HOME: {
       desc: "签到",
       name: "签到",
       pageid: Env.PageEnum.HOME,
       // mark: { className:"android.view.View", text: "编辑短信：注册验证" },
-      mark: { id: "签到" },
+      mark: { id: "user_info_user_head_icon" },
       next: [],
       operates: {
         next: [
-          { name: "click", mark: { text: "签到" } },
+          // { name: "click", mark: { id: "user_head_portrait_icon" } },
+          // { name: "sleep"},
+          { name: "click", mark: { id: "ll_lv_signin" } },
+          { name: "sleep"},
+          { name: "click", mark: { text: "不选择地点" } },
+          { name: "sleep"},
         ],
-        finish: [{ name: "sleep" }],
+        finish: [{ name: "back" }],
+      },
+    },
+
+    SIGEN: {
+      desc: "我在这里",
+      name: "我在这里",
+      pageid: Env.PageEnum.SIGEN,
+      // mark: { className:"android.view.View", text: "编辑短信：注册验证" },
+      mark: { id:"tv_title_text", text: "我在这里" },
+      next: [],
+      operates: {
+        next: [
+          { name: "click", mark: { text: "不选择地点" } },
+          { name: "sleep"},
+          { name: "click", mark: { id: "sign_name" } },
+          { name: "sleep"},
+        ],
       },
     },
   },

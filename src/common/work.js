@@ -29,8 +29,9 @@ var work = {
   _pageList: [],
   _curStep: 0,
   _curJob: {},
+  _needExit:false,
   
-  init: function (jib) {
+  init: function (job) {
     auto();
 
     var _curRa = new RootAutomator();
@@ -38,12 +39,18 @@ var work = {
       _curRa.exit();
     });
 
-    let package = jib.package;
+    let package = job.package;
 
     if (currentPackage() != package) {
       launch(package);
       waitForPackage(package);
       sleep(5000);
+    }
+    let activity = job.activity;
+    if(!Utils.isNull){
+      toast('Wait For Activity:',activity);
+      console.log('Wait For Activity:',activity);
+      waitForActivity(activity);
     }
     //远程获取配置
     Api.getConfig();
@@ -77,7 +84,7 @@ var work = {
     //   running: JSON.parse(JSON.stringify(this._curJob.running)),
     // };
     //初始化
-    while (true) {
+    while (!this._needExit) {
       //判断下一步的位置
       this.nextStep();
       for( let item of this._curJob.default.steps){
@@ -112,7 +119,8 @@ var work = {
       // }
       sleep(3000);
     }
-
+    //结束
+    Api.finish();
 
   },
 
@@ -199,6 +207,9 @@ var work = {
             }
           }
 
+        }
+        if (!Utils.isNull(_job.exit) && _job.exit === true) {
+          this._needExit = true;
         }
       }
     }

@@ -25,7 +25,9 @@ var Env = require('../env');
  */
 var Job = {
     CLIENT:'mail.163.com',
-    package:'com.tencent.mtt',
+    package:'com.tencent.mtt',//qq浏览器
+    activity: "com.tencent.mtt.MainActivity",
+
     /**
      * @description 默认配置，自动加载
      */
@@ -48,7 +50,7 @@ var Job = {
                 { next: Env.STEP.LOGIN, pageid: Env.PageEnum.REGISTER, jobs: this.pages.REGISTER.operates.input },
                 { next: Env.STEP.LOGIN, pageid: Env.PageEnum.ACCOUNT_CONFIRM, jobs: this.pages.ACCOUNT_CONFIRM.operates.input },
                 { next: Env.STEP.LOGIN, pageid: Env.PageEnum.ACCOUNT_SEND_CONFIRM, jobs: this.pages.ACCOUNT_SEND_CONFIRM.operates.send },
-                { next: Env.STEP.LOGIN, pageid: Env.PageEnum.REGISTER_OK, jobs: this.pages.REGISTER_OK.operates.send },
+                { next: Env.STEP.LOGIN, pageid: Env.PageEnum.REGISTER_OK, jobs: this.pages.REGISTER_OK.operates.send, exit:true },
             ],
         }
     },
@@ -61,46 +63,14 @@ var Job = {
             must: [
                 { pageid: Env.PageEnum.REGISTER, jobs: this.pages.REGISTER.operates.input },
                 { pageid: Env.PageEnum.ACCOUNT_SEND_CONFIRM, jobs: this.pages.ACCOUNT_SEND_CONFIRM.operates.send },
-                { pageid: Env.PageEnum.REGISTER_OK, jobs: this.pages.REGISTER_OK.operates.send },
+                { pageid: Env.PageEnum.REGISTER_OK, jobs: this.pages.REGISTER_OK.operates.send, exit:true },
             ],
             someone: [
             ],
         }
 
     },
-    /**
-     * 写微博
-     */
-    get write() {
-        return {
-            step: Env.STEP.WRITE,
-            must: [
-            ],
-            someone: [],
-        }
-    },
-    /**
-     * 退出登录
-     */
-    get logout() {
-        return {
-            step: Env.STEP.LOGOUT,
-            must: [
-            ],
-            someone: [],
-        }
-    },
-    /**
-     * 获取登录昵称
-     */
-    get nickname() {
-        return {
-            step: Env.STEP.NICKNAME,
-            must: [
-            ],
-            someone: [],
-        }
-    },
+    
     /**
      * ... 还可以定义更多的步骤
      */
@@ -225,6 +195,7 @@ var Job = {
             next: [],
             operates: {
                 send: [
+                    { name: "wait", mark:{className:"android.view.View", text: "恭喜您，" }},
                     { name: "text", mark: { className:"android.view.View", textEndsWith: "已经注册成功！" } , param: { set: "name" } },
                     { name: "get", mark: { name: "register_ok", uri: "api" }, param: { } },
                     // 系统未收到短信，请重新发送短信验证
@@ -241,10 +212,7 @@ var Job = {
             next: [],
             operates: {
                 send: [
-                    { name: "click", mark: { className:"android.widget.TextView", text: "搜免费小说 影视 游戏 App" } },
-                    { name: "get", mark: { name: "register_ok", uri: "api" }, param: { } },
-                    // 系统未收到短信，请重新发送短信验证
-                ],
+            ],
                 finish: [{ name: "sleep" }],
             },
         },

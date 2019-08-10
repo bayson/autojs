@@ -112,6 +112,7 @@ var Env = {
     REGISTER: 35,
     ACCOUNT_SEND_CONFIRM: 36,
     REGISTER_OK: 37,
+    UPDATED:38,
   },
 
   /**
@@ -127,6 +128,7 @@ var Env = {
     NEEDLOGOUT: 6,
     LOGINED: 7,
     RUNNING: 8,
+    BEFORE:9,
   },
 
 }
