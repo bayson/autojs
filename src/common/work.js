@@ -38,6 +38,8 @@ var work = {
     events.on('exit', function () {
       _curRa.exit();
     });
+    //获取截屏的权限
+    requestScreenCapture();
 
     let package = job.package;
 
@@ -92,31 +94,7 @@ var work = {
             this.run(JSON.parse(JSON.stringify(item)));
           }
       }
-      // //执行操作
-      // switch (this._curStep) {
-      //   case Env.STEP.LOGIN:
-      //     console.log('login');
-      //     this.run(items['login']);
-      //     break;
-      //   case Env.STEP.NICKNAME:
-      //     console.log('nickname');
-      //     this.run(items['nickname']);
-      //     break;
-      //   case Env.STEP.WRITE:
-      //     console.log('write');
-      //     this.run(items['write']);
-      //     break;
-      //   case Env.STEP.NEEDLOGOUT:
-      //     console.log('logout');
-      //     this.run(items['logout']);
-      //     break;
-      //   case Env.STEP.RUNNING:
-      //     console.log('running');
-      //     this.run(items['running']);
-      //     break;
-      //   default:
-      //     break;
-      // }
+
       sleep(3000);
     }
     //结束
@@ -145,8 +123,8 @@ var work = {
       }
     }
     this._curStep = Operate.nextStep(this._curPage, someone);
-    toast('找到：' + conf.name, this._curStep);
-    console.log('找到：' + conf.name, this._curStep);
+    toast('find:' + conf.name, this._curStep);
+    console.log('find:' + conf.name, this._curStep);
 
   },
 

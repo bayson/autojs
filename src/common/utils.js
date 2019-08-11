@@ -15,20 +15,19 @@ var Utils = {
         var b = a.map(function (val) { return val.replace(val.charAt(0), val.charAt(0).toUpperCase()) })
         return b.join('');
     },
-    fill: function(len,item){
+    fill: function (len, item) {
         var l = [];
-        for( var i = 0; i < len; i+=1){
+        for (var i = 0; i < len; i += 1) {
             l.push(JSON.parse(JSON.stringify(item)));
         }
         return l;
     },
-    get: function(arr,name,value){
-        return arr.find(function (obj) { if (eval("obj."+name+" == value")) { return obj; } });
+    get: function (arr, name, value) {
+        return arr.find(function (obj) { if (eval("obj." + name + " == value")) { return obj; } });
     },
-    isNull: function(str)
-    {
+    isNull: function (str) {
         //为空判断函数
-        return !str && str!==0 && typeof str!=="boolean"?true:false;
+        return !str && str !== 0 && typeof str !== "boolean" ? true : false;
     }
 
 }

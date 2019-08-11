@@ -23,9 +23,11 @@ var Env = require('../env');
  * 注意：如果一个页面有多个特征码匹配，以最后一个为准
  */
 var Job = {
+    version: '9.6.3',
     CLIENT:'weibo',
     package:'com.sina.weibo',
-
+    activity: "com.sina.weibo.MainTabActivity",
+  
     /**
      * @description 默认配置，自动加载
      */

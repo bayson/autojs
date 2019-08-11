@@ -40,7 +40,7 @@ var operate = {
         //     }
         // })
         // console.log(JSON.stringify(pages));
-        for( let k in pages){
+        for (let k in pages) {
             if (this.doExists(pages[k].mark)) {
                 result = pages[k];
             }
@@ -52,11 +52,11 @@ var operate = {
      * 获取下一个步骤
      * @param {*} pages 
      */
-    nextStep: function (pageid,pages) {
+    nextStep: function (pageid, pages) {
         // var result = [];
         // console.log('nextStep:',pageid,JSON.stringify(pages));
-        let result = { next: 0, pageid: 0, jobs:[] };
-        for( let k in pages){
+        let result = { next: 0, pageid: 0, jobs: [] };
+        for (let k in pages) {
             let item = pages[k];
             if (item.pageid === pageid) {
                 result = item;
@@ -82,15 +82,17 @@ var operate = {
     build: function (item) {
         // let funNames = ['id','text','desc','className','depth','textStartsWith','textEndsWith'];
         let target = null;
-        for (let k in item) {
-            let v = item[k];
-            if (v != "" && v != null && v != undefined) {
-                if (!!target) {
-                    target = eval('target.' + k + '(v)');
-                } else {
-                    target = eval(k + '(v)');
+        if (Utils.isNull(item.name)) {
+            for (let k in item) {
+                let v = item[k];
+                if (v != "" && v != null && v != undefined) {
+                    if (!!target) {
+                        target = eval('target.' + k + '(v)');
+                    } else {
+                        target = eval(k + '(v)');
+                    }
+                    // console.log('build target:'+JSON.stringify(target));
                 }
-                // console.log('build target:'+JSON.stringify(target));
             }
         }
         return target;
@@ -153,15 +155,15 @@ var operate = {
         // 有多个同样的，或者只有一个但是需要向上一级获取子节点
         if (!!param && !Utils.isNull(param.indexOf)) {
             //需要向上一级获取子节点
-            if(!Utils.isNull(param.parent) && param.parent > 0){
+            if (!Utils.isNull(param.parent) && param.parent > 0) {
                 target = this.build(mark).findOne();
                 let pLen = param.parent;
-                while(pLen > 0){
+                while (pLen > 0) {
                     target = target.parent;
                     pLen--;
                 }
                 target = target.children();
-            }else{
+            } else {
                 target = this.build(mark).find();
             }
             //有多个同样的，根据param.indexOf过滤节点,选择一个
@@ -476,6 +478,75 @@ var operate = {
         return target.waitFor();
     },
     /**
+     * 执行shell命令
+     * @param {*} mark
+     * @param {*} param
+     */
+    doShell: function (mark, param) {
+        console.log('do shell');
+        let rs = { code: -1 };
+        // console.log(JSON.stringify(param));
+        if (!!param && !Utils.isNull(param.cmd)) {
+            let root = false;
+            if (!Utils.isNull(param.root) && param.root === true) {
+                root = true;
+            }
+            rs = shell(param.cmd, root);
+            if (rs.code == 0) {
+                console.log("run shell success", JSON.stringify(rs));
+            } else {
+                console.log("run shell failed", JSON.stringify(rs));
+            }
+        }
+        return rs.code == 0;
+    },
+    /**
+     * 点击指定图片
+     * @param {*} mark 
+     * @param {*} param 
+     */
+    doImage: function (mark, param) {
+        console.log('do image');
+        let img = null;
+        try {
+            if (!Utils.isNull(mark.path)) {
+                console.log('image read from path');
+                if (files.isFile(mark.path))
+                    img = images.read(mark.path)
+            }
+            if (!Utils.isNull(mark.base64)) {
+                console.log('image from base64');
+                img = images.fromBase64(mark.base64);
+            }
+            if (!Utils.isNull(mark.url)) {
+                console.log('image load from url');
+                img = images.load(mark.url);
+            }
+            if (img != null) {
+                let p = findImage(captureScreen(), img);
+                if (p) {
+                    let x = p.x + img.getWidth() / 2;
+                    let y = p.y + img.getHeight() / 2;
+                    console.log("find image: ", p, img.getWidth(), img.getHeight(), x, y);
+                    if(!!param && !Utils.isNull(param.action) && Utils.titleCase(param.action) == 'Tap'){
+                        Tap(x, y);
+                        sleep(1000);
+                    }
+                    return true;
+                } else {
+                    console.log("not find image");
+                    return false;
+                }
+            }
+            console.log("not find image");
+            return false;
+        } catch (error) {
+            console.log("do image in catch", error);
+            return false;
+        }
+
+    },
+    /**
      * 
      * 根据传入的属性，判断对应的节点是否存在,OK
      * 
@@ -483,9 +554,14 @@ var operate = {
      */
     doExists: function (mark, param) {
         // console.log('do exists');
-        let target = this.build(mark);
-        // console.log(this.build(mark).exists());
-        return !!target ? target.exists() : false;
+        if (!Utils.isNull(mark.name)) {
+            return this.doFun(mark);
+            // return eval('this.do'+Utils.titleCase(mark.name)+'(mark.mark, param)');
+        } else {
+            let target = this.build(mark);
+            // console.log(this.build(mark).exists());
+            return !!target ? target.exists() : false;
+        }
     },
     /**
      * 点击父控件,OK
