@@ -24,7 +24,7 @@ var Env = require('../env');
  * 注意：如果一个页面有多个特征码匹配，以最后一个为准
  */
 var Job = {
-  version: 'v9.0.2',
+  version: '9.0.2',
   CLIENT: '叮咚买菜-签到',
   package: 'com.yaya.zone',
   activity: "com.yaya.zone.activity.HomeActivity",

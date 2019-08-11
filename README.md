@@ -78,6 +78,10 @@
 <div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-183903.png"/></div>
 <br>
 
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190811-144454.png"/></div>
+<br>
+
+
 ### 叮咚买菜-签到
 * 1.将脚本 ./dist/叮咚买菜-签到.js 复制到AutoJs脚本目录下,默认目录是：/sdcard/脚本/
 * 2.直接启动脚本"叮咚买菜-签到"即可,
@@ -86,6 +90,23 @@
 <div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-222249.png"/></div>
 <br>
 <div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190810-222256.png"/></div>
+<br>
+
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190811-145459.png"/></div>
+<br>
+
+
+### 拼多多-签到-领红包
+* 1.将脚本 ./dist/拼多多-签到.js 复制到AutoJs脚本目录下,默认目录是：/sdcard/脚本/
+* 2.直接启动脚本"拼多多-签到"即可,
+* 3.如果遇到不能识别的页面手动点击就可以
+
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190811-142627.png"/></div>
+<br>
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190811-142645.png"/></div>
+<br>
+
+<div align=center><img height="854" width="480" src="https://raw.githubusercontent.com/bayson/autojs/master/resources/Screenshot_20190811-144305.png"/></div>
 <br>
 
 ## TODO LIST

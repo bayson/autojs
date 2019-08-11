@@ -24,6 +24,7 @@ var Env = require('../env');
  * 注意：如果一个页面有多个特征码匹配，以最后一个为准
  */
 var Job = {
+  version: '4.68.0',
   CLIENT: '拼多多-签到',
   package: 'com.xunmeng.pinduoduo',
   activity: "com.xunmeng.pinduoduo.ui.activity.HomeActivity",
