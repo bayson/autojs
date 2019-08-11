@@ -198,7 +198,7 @@ var work = {
         if (!!_job && !!_job.jobs) {
           for (let im of _job.jobs) {
             // console.log('in do page conf.mark:', JSON.stringify(conf.mark));
-            if (Operate.isPage(conf.mark)) {
+            if (conf.pageid !== Env.PageEnum.UNKNOW && Operate.isPage(conf.mark)) {
               // console.log('loop job:', JSON.stringify(im));
               Operate.doFun(im);
             } else {

@@ -76,6 +76,7 @@ var Env = {
 
 
   PageEnum: {
+    UNKNOW:0,
     LOGIN: 1,
     INPUT_CODE: 2,
     ACCOUNT_CONFIRM: 3,
@@ -116,6 +117,9 @@ var Env = {
     INPUT_PHONE: 39,
     INPUT_PASSWORD: 40,
     FIND_PASSWORD:41,
+    RED_PAGE:42,
+    RED_FRIEND_PAGE:43,
+    RED_BUY_PAGE:44,
   
   },
 
