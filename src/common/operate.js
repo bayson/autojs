@@ -19,6 +19,8 @@
  * desc 获取控件的desc描述值，
  * tap 点击控件位置的屏幕，
  * enter 触发回车，
+ * image 通过图片搜索控件
+ *    { name: "image", mark: { base64: wbqianbao_logo }, param:{action:"tap"} },
  * 函数可以扩展
  */
 
@@ -42,7 +44,13 @@ var operate = {
         // console.log(JSON.stringify(pages));
         for (let k in pages) {
             if (this.doExists(pages[k].mark)) {
-                result = pages[k];
+                // 增加优先级排序，区别有同样标志的页面
+                if(!Utils.isNull(pages[k].priority) && pages[k].priority < result.priority)
+                {
+                    console.log('same mark and priority lower',result.name, pages[k].name);
+                }else{
+                    result = pages[k];
+                }
             }
         }
         return result;
@@ -159,7 +167,7 @@ var operate = {
                 target = this.build(mark).findOne();
                 let pLen = param.parent;
                 while (pLen > 0) {
-                    target = target.parent;
+                    target = target.parent();
                     pLen--;
                 }
                 target = target.children();
@@ -169,7 +177,7 @@ var operate = {
             //有多个同样的，根据param.indexOf过滤节点,选择一个
             // {name:"click", mark:{id:"tv_userinfo"}, param:{indexOf:{tag:"text",try:10,get:{name:"given_weibo_title",uri:"api"}}}},
             // {name:"click", mark:{id:"tv_userinfo"}, param:{indexOf:{tag:"text",try:10,default:"测试位置"}}},
-            target = this.indexOfNode(target, param);
+            target = this.indexOfNode(mark, param, target);
         } else {
             //只会有一个的情况
             target = this.build(mark).findOnce();
@@ -181,7 +189,7 @@ var operate = {
 
     },
 
-    indexOfNode: function (target, param) {
+    indexOfNode: function (mark, param, target) {
         //没有找到尝试向上滚动一下找找
         let maxTry = 1;
         if (!Utils.isNull(param.indexOf.try) && param.indexOf.try > -1) {
@@ -204,14 +212,14 @@ var operate = {
                     target = target[param.indexOf];
                 }
             } else if (typeof param.indexOf === 'object'
-                && typeof param.indexOf.get === 'object'
+                && !Utils.isNull(param.indexOf.tag) 
             ) {
-                if (!Utils.isNull(param.indexOf.tag)) {
+                if (typeof param.indexOf.get === 'object') {
                     let str = this.doGet(param.indexOf.get);
-                    // console.log('find node str:',str);
                     target = eval('target.findOne(' + param.indexOf.tag + "(str))");
                 } else if (!Utils.isNull(param.indexOf.default)) {
                     let str = param.indexOf.default;
+                    // console.log('find node str:',str);
                     target = eval('target.findOne(' + param.indexOf.tag + "(str))");
                 } else {
                     target = target[0];
@@ -275,42 +283,38 @@ var operate = {
         return false;
     },
     /**
-     * 一个一个输入到控件,OK
+     * 一个一个输入到控件,只支持英文和字母,OK
      * @param {*} mark 
      * @param {*} param 
      */
     doInput: function (mark, param) {
         console.log('do input');
         let target = this.findNode(mark, param);
+        // console.log('do input', JSON.stringify(target));
         if (!!target) {
             Tap(target.bounds().centerX(), target.bounds().centerY());
             sleep(1000);
-            // let tp = 'code';
-            // let str = '';
-            // if(!!param && !Utils.isNull(param.type)){
-            //     tp = param.type;
-            // }
-            // if( tp == 'reply'){
-            //     str = Api.postReplyMsg();
-            // }else{
-            //     str = Api.getCode();
-            // }
-            let name = "login_code";
+            let name = {name:"login_code"};
             if (!!param && !Utils.isNull(param.get)) {
                 name = param.get;
             }
-            // let str = Api.postReplyMsg();
             let str = this.doGet(name);
             if (!!str) {
-                let strArray = str.split("")
-                if (strArray.length > 0) {
-                    setText(strArray[0]);
-                }
-                for (let i = 1; i < strArray.length; i++) {
-                    let char = strArray[i];
-                    input(char);
-                    sleep(random(1000, 1500));
-                }
+                // let strArray = str.split("");
+                // if (strArray.length > 0) {
+                //     // setText(strArray[0]);
+                //     Text(strArray[0]);
+                // }
+                // for (let i = 1; i < strArray.length; i++) {
+                //     let char = strArray[i];
+                //     // input(char);
+                //     Text(char);
+                //     sleep(random(500, 1000));
+                // }
+                Text(str);
+                sleep(random(500,1000));
+                // KeyCode('KEYCODE_ENTER');
+                // KeyCode('KEYCODE_SEARCH');
                 return true;
             }
         } else {
@@ -510,16 +514,16 @@ var operate = {
         let img = null;
         try {
             if (!Utils.isNull(mark.path)) {
-                console.log('image read from path');
+                // console.log('image read from path');
                 if (files.isFile(mark.path))
                     img = images.read(mark.path)
             }
             if (!Utils.isNull(mark.base64)) {
-                console.log('image from base64');
+                // console.log('image from base64');
                 img = images.fromBase64(mark.base64);
             }
             if (!Utils.isNull(mark.url)) {
-                console.log('image load from url');
+                // console.log('image load from url');
                 img = images.load(mark.url);
             }
             if (img != null) {
@@ -545,6 +549,14 @@ var operate = {
             return false;
         }
 
+    },
+    /**
+     * 一直返回true
+     * @param {*} mark 
+     * @param {*} param 
+     */
+    doUnknow:function(mark,param){
+        return true;
     },
     /**
      * 
@@ -640,6 +652,11 @@ var operate = {
      */
     doGet: function (mark, param) {
         console.log('do get');
+        let result = null;
+        //增加默认值,默认值写在mark里
+        if (!!mark && !Utils.isNull(mark.default)){
+            result = mark.default;
+        }
         if (!!mark && !Utils.isNull(mark.name)) {
 
             let valName = "Env.cur" + Utils.titleCase(mark.name);
@@ -658,7 +675,7 @@ var operate = {
                 return eval(valName);
             }
         }
-        return null;
+        return result;
     },
     /**
        * 调用指定名称的函数,OK
@@ -674,10 +691,17 @@ var operate = {
         sleep(delay);
         if (!!name) {
             let funName = "do" + Utils.titleCase(name);
-            // let fn = new Function("","return typeof this."+funName+" === 'function' ? this." + funName + "(mark,param) : false;");
-            // let fn = new Function("this." + funName + "(mark,param)");
-            // return fn();
-            return eval("this." + funName + "(mark,param);");
+            // 增加循环执行，解决某些标记问题
+            let loops = 1;
+            let result = false;
+            if(!!param && !Utils.isNull(param.loops) && param.loops > 1){
+                loops = param.loops;
+            }
+            while(loops > 0){
+                result = eval("this." + funName + "(mark,param);");
+                loops--;
+            }
+            return result;
         } else {
             console.log('not do fun:' + name);
         }

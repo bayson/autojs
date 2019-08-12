@@ -7,6 +7,7 @@
 
 var Env = require('../env')
 var Sms = require('./sms')
+var Utils = require('./utils')
 
 var api={
   
@@ -219,22 +220,33 @@ var api={
   },
 
   getRegisterName: function () {
-    let names = [
-      "Aaron", "Abbott", "Abel", "Abner", "Abraham", "Adair", "Adam", "Adolph", "Adonis", "Alan", "Albert", "Aldrich", "Alexander", "Alfred", "Alger", "Allen", "Alston", "Alva", "Alvin", "Alvis", "Amos", "Andre", "Andrew", "Andy", "Angelo", "Augus", "Ansel", "Antony", "Antonio", "Archer", "Archibald", "Aries", "Arlen", "Armand", "Armstrong", "Arno", "Arthur", "Arvin", "Asa", "Atwood", "Aubrey", "August", "Augustine", "Avery",
-    ];
-    let rs = names[random(0, names.length - 1)] + random(10000, 99999);
-    rs = rs.toLowerCase();
-    toast("username:" + rs);
-    console.log("username:" + rs);
-    return rs;
+    try {
+      let c = Env.curName;
+      let r = http.get("https://kapi.i-tax.ren/api/aichat/username?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) 
+      + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&p=" + Env.curPhone );
+      let body = r.body.string();
+      Env.curUsername = body;
+      Env.curName = body;
+      return body;
+    } catch (e) {
+
+    }
   },
 
   getRegisterPassword: function () {
-    return "16181814";
+    try {
+      let c = Env.curName;
+      let r = http.get("https://kapi.i-tax.ren/api/aichat/password?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) 
+      + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&p=" + Env.curPhone );
+      let body = r.body.string();
+      return Utils.isNull(body) ? Env.curDefaultPassword : body;
+    } catch (e) {
+
+    }
   },
 
   getRegisterOk: function (){
-    let msg = {name:Env.curName,phone:Env.curPhone,item:Env.itemRegister,client:Env.CLIENT};
+    let msg = {username:Env.curUsername,name:Env.curName,phone:Env.curPhone,item:Env.itemRegister,client:Env.CLIENT};
     console.log('register ok:',msg)
     return this.loginOk(Env.curPhone,Env.curName,'register',JSON.stringify(msg));
   },

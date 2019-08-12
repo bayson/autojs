@@ -24,10 +24,10 @@ var Env = require('../env');
  */
 var Job = {
     version: '9.6.3',
-    CLIENT:'weibo',
-    package:'com.sina.weibo',
+    CLIENT: 'weibo',
+    package: 'com.sina.weibo',
     activity: "com.sina.weibo.MainTabActivity",
-  
+
     /**
      * @description 默认配置，自动加载
      */
@@ -40,11 +40,12 @@ var Job = {
             /**
              * @description 指定某一步骤的最大重复次数
              */
-            maxTimes:[-1,-1,3,-1],
+            maxTimes: [-1, -1, 3, -1],
             /**
              * @description 定义可能遇到的页面默认处理方式; next:为强制跳转，pageid:为页面ID，jobs:为具体的执行操作
              */
             someone: [
+                { next: Env.STEP.NOCHANGE, pageid: Env.PageEnum.UNKNOW, jobs: this.pages.UNKNOW.operates.next },
                 { next: Env.STEP.LOGIN, pageid: Env.PageEnum.LOGIN, jobs: this.pages.LOGIN.operates.login },
                 { next: Env.STEP.LOGIN, pageid: Env.PageEnum.INPUT_CODE, jobs: this.pages.INPUT_CODE.operates.code },
                 { next: Env.STEP.WRITE, pageid: Env.PageEnum.DETAIL, jobs: this.pages.DETAIL.operates.follow },
@@ -63,6 +64,8 @@ var Job = {
                 { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_5, jobs: this.pages.ACCOUNT_ERROR_5.operates.next },
                 { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_CONFIRM, jobs: this.pages.ACCOUNT_CONFIRM.operates.finish },
                 { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR, jobs: this.pages.ACCOUNT_ERROR.operates.cancel },
+                { next: Env.STEP.NOCHANGE, pageid: Env.PageEnum.SIGEN, jobs: this.pages.SIGEN.operates.next },
+                { next: Env.STEP.NOCHANGE, pageid: Env.PageEnum.USER_CENTER, jobs: this.pages.USER_CENTER.operates.next },
             ],
         }
     },
@@ -84,8 +87,8 @@ var Job = {
                 { next: Env.STEP.NOCHANGE, pageid: Env.PageEnum.WELCOME_CAMEBACK, jobs: this.pages.WELCOME_CAMEBACK.operates.next },
                 { next: Env.STEP.NOCHANGE, pageid: Env.PageEnum.SELECT_CLASS, jobs: this.pages.SELECT_CLASS.operates.next },
                 { next: Env.STEP.NOCHANGE, pageid: Env.PageEnum.RECOMMEND, jobs: this.pages.RECOMMEND.operates.next },
-                { next: Env.STEP.NOCHANGE, pageid: Env.PageEnum.SIGEN, jobs: this.pages.SIGEN.operates.finish },
-                { next: Env.STEP.NOCHANGE, pageid: Env.PageEnum.USER_CENTER, jobs: this.pages.USER_CENTER.operates.finish },
+                { next: Env.STEP.NOCHANGE, pageid: Env.PageEnum.SIGEN, jobs: this.pages.SIGEN.operates.next },
+                { next: Env.STEP.NOCHANGE, pageid: Env.PageEnum.USER_CENTER, jobs: this.pages.USER_CENTER.operates.next },
                 { next: Env.STEP.NOCHANGE, pageid: Env.PageEnum.WELCOME_WEIBO, jobs: this.pages.WELCOME_WEIBO.operates.next },
                 { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_2, jobs: this.pages.ACCOUNT_ERROR_2.operates.next },
                 { next: Env.STEP.LOGOUT, pageid: Env.PageEnum.ACCOUNT_ERROR_3, jobs: this.pages.ACCOUNT_ERROR_3.operates.next },
@@ -145,6 +148,18 @@ var Job = {
      * 定义页面的识别标志及具体的各操作
      */
     pages: {
+        UNKNOW: {
+            desc: "未知页面",
+            name: "未知页面",
+            pageid: Env.PageEnum.UNKNOW,
+            mark: { name: "unknow" },
+            next: [],
+            operates: {
+              next: [
+                { name: "click", mark: { className: "android.widget.TextView", text:"以后再说" } },
+              ]
+            },
+          },
         LOGIN: {
             desc: "登陆页输入手机号",
             name: "登录",
@@ -407,18 +422,26 @@ var Job = {
             },
         },
         SIGEN: {
-            desc: "马上签到",
-            name: "马上签到", pageid: Env.PageEnum.SIGEN, mark: { id: "iv_content", text: "", desc: "", className: "" },
-            next: [],
+            desc: "连续签到领取红包",
+            name: "马上参与", pageid: Env.PageEnum.SIGEN, mark: { id: "iv_content" },
+            next: [
+            ],
             operates: {
+                next: [
+                    { name: "click", mark: { id: "iv_content" } }
+                ],
                 finish: [{ name: "back" }],
             },
         },
         USER_CENTER: {
             desc: "用户任务中心",
             name: "用户任务中心", pageid: Env.PageEnum.USER_CENTER, mark: { id: "titleText", text: "用户任务中心", desc: "", className: "" },
-            next: [],
+            next: [
+            ],
             operates: {
+                next: [
+                    { name: "click", mark: { className: "android.view.View", desc: "连续签到有大红包奖励！做任务获补签机会，越努力越幸运！" }, param: { parent: 1, indexOf: { tag: "clickable", default: 'true' } } }
+                ],
                 finish: [{ name: "back" }],
             },
         },
@@ -516,7 +539,7 @@ var Job = {
  * 初始化后执行
  */
 function afterInit() {
-  sleep(1000);
+    sleep(1000);
 }
 
 var __curJob = JSON.parse(JSON.stringify(Job));

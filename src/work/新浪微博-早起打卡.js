@@ -52,7 +52,7 @@ var Job = {
        * @description 定义可能遇到的页面默认处理方式; next:为强制跳转，pageid:为页面ID，jobs:为具体的执行操作
        */
       someone: [
-        { next: Env.STEP.RUNNING, pageid: Env.PageEnum.UPDATED, jobs: this.pages.UPDATED.operates.next },
+        { next: Env.STEP.RUNNING, pageid: Env.PageEnum.UNKNOW, jobs: this.pages.UNKNOW.operates.next },
         { next: Env.STEP.RUNNING, pageid: Env.PageEnum.HOME_HOT, jobs: this.pages.HOME_HOT.operates.next },
         { next: Env.STEP.RUNNING, pageid: Env.PageEnum.HOME_FOLLOW, jobs: this.pages.HOME_FOLLOW.operates.next },
         { next: Env.STEP.RUNNING, pageid: Env.PageEnum.MINE, jobs: this.pages.MINE.operates.next },
@@ -84,11 +84,11 @@ var Job = {
    * 定义页面的识别标志及具体的各操作
    */
   pages: {
-    UPDATED: {
-      desc: "关闭更新弹窗",
-      name: "关闭更新弹窗",
-      pageid: Env.PageEnum.UPDATED,
-      mark: { id: "cancel_update" },
+    UNKNOW: {
+      desc: "关闭弹窗",
+      name: "关闭弹窗",
+      pageid: Env.PageEnum.UNKNOW,
+      mark: { name: "unknow" },
       next: [],
       operates: {
         next: [

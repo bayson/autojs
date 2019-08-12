@@ -47,6 +47,7 @@ var Env = {
   curPassword: '',
   curRegisterCode: '',
   itemRegister: '47028', //网易邮箱
+  curDefaultPassword:'123.youshui.Ren',
   // console.show(),
   config: {
     debug: false,
@@ -74,7 +75,18 @@ var Env = {
     token: '01612967355ef542176c2740c0855e2a5921725c4701',
   },
 
-
+  PRIORITY:{
+    LEVEL_0:0, //默认级别
+    LEVEL_1:1,
+    LEVEL_2:2,
+    LEVEL_3:3,
+    LEVEL_4:4,
+    LEVEL_5:5,
+    LEVEL_6:6,
+    LEVEL_7:7,
+    LEVEL_8:8,
+    LEVEL_9:9, //最高优先级
+  },
   PageEnum: {
     UNKNOW:0,
     LOGIN: 1,

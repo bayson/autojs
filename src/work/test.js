@@ -96,9 +96,14 @@ function test() {
         // 进入自己发布的文件列表
         // { name: "back"},
         // {name:"swipe"},
-        { name: "image", mark: { base64: weiboqianbao_hong }}
+        // { name: "image", mark: { base64: weiboqianbao_hong }}
+        // { name: "input", mark:{ className:"android.widget.TextView", text: "取消"  },param:{get:{default:"mail.163.com"},parent:1,indexOf:{tag:"className", default:"android.view.View"}}},
+        // { name: "sleep"},
+        // { name: "tap", mark:{ className:"android.widget.TextView", text: "进入"}},
+        { name :"exists", mark:{className:"com.tencent.mtt.browser.homepage.view.fastlink.g", text: "直播交友"}},
+        { name :"exists", mark:{text: "进入"}},
       ],
-      finish: [{ name: "click", mark: { id: "tv_userinfo" }, param: { indexOf: { tag: "text", try: 10, get: { name: "given_weibo_title", uri: "api" } } } }],
+      // finish: [{ name: "click", mark: { id: "tv_userinfo" }, param: { indexOf: { tag: "text", try: 10, get: { name: "given_weibo_title", uri: "api" } } } }],
     }
   };
 
