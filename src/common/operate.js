@@ -283,7 +283,7 @@ var operate = {
         return false;
     },
     /**
-     * 一个一个输入到控件,只支持英文和字母,OK
+     * 输入到控件,只支持英文和字母,OK
      * @param {*} mark 
      * @param {*} param 
      */
@@ -300,21 +300,47 @@ var operate = {
             }
             let str = this.doGet(name);
             if (!!str) {
-                // let strArray = str.split("");
-                // if (strArray.length > 0) {
-                //     // setText(strArray[0]);
-                //     Text(strArray[0]);
-                // }
-                // for (let i = 1; i < strArray.length; i++) {
-                //     let char = strArray[i];
-                //     // input(char);
-                //     Text(char);
-                //     sleep(random(500, 1000));
-                // }
                 Text(str);
                 sleep(random(500,1000));
                 // KeyCode('KEYCODE_ENTER');
                 // KeyCode('KEYCODE_SEARCH');
+                return true;
+            }
+        } else {
+            console.log('not do input');
+        }
+        return false;
+    },
+    /**
+     * 一个一个输入到控件,只支持英文和字母,OK
+     * @param {*} mark 
+     * @param {*} param 
+     */
+    doKeycode: function (mark, param) {
+        console.log('do input');
+        let target = this.findNode(mark, param);
+        // console.log('do input', JSON.stringify(target));
+        if (!!target) {
+            Tap(target.bounds().centerX(), target.bounds().centerY());
+            sleep(1000);
+            let name = {name:"login_code"};
+            if (!!param && !Utils.isNull(param.get)) {
+                name = param.get;
+            }
+            let str = this.doGet(name);
+            if (!!str) {
+                let strArray = str.split("");
+                if (strArray.length > 0) {
+                    // setText(strArray[0]);
+                    Text(strArray[0]);
+                    sleep(random(500,1000));
+                }
+                for (let i = 1; i < strArray.length; i++) {
+                    let char = strArray[i];
+                    // input(char);
+                    Text(char);
+                    sleep(random(500, 1000));
+                }
                 return true;
             }
         } else {
