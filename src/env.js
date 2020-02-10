@@ -48,6 +48,7 @@ var Env = {
   curRegisterCode: '',
   itemRegister: '47028', //网易邮箱
   curDefaultPassword:'123.youshui.Ren',
+  curPHoneList:[],
   // console.show(),
   config: {
     debug: false,
@@ -132,7 +133,11 @@ var Env = {
     RED_PAGE:42,
     RED_FRIEND_PAGE:43,
     RED_BUY_PAGE:44,
-  
+    SHARE:45,
+    DELETE_CONFIRM:46,
+    LOGIN_CODE:47,
+    LOGIN_ACCOUNT:48,
+    DELETE_FRAM:49,
   },
 
   /**

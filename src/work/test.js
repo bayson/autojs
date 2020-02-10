@@ -100,8 +100,13 @@ function test() {
         // { name: "input", mark:{ className:"android.widget.TextView", text: "取消"  },param:{get:{default:"mail.163.com"},parent:1,indexOf:{tag:"className", default:"android.view.View"}}},
         // { name: "sleep"},
         // { name: "tap", mark:{ className:"android.widget.TextView", text: "进入"}},
-        { name :"exists", mark:{className:"com.tencent.mtt.browser.homepage.view.fastlink.g", text: "直播交友"}},
-        { name :"exists", mark:{text: "进入"}},
+        // { name :"exists", mark:{className:"com.tencent.mtt.browser.homepage.view.fastlink.g", text: "直播交友"}},
+        // { name :"exists", mark:{text: "进入"}},
+        { name: "exists", mark: { className:"android.widget.Button", desc:"关注" } }, //喜欢
+        { name: "exists", mark: { className:"android.widget.ImageView", descStartsWith:"未选中，" } }, //喜欢
+        { name: "tap", mark: { className:"android.widget.ImageView", descStartsWith:"未选中，" } }, //喜欢
+        { name: "click", mark: { className:"android.widget.ImageView", descStartsWith:"未选中，" } }, //喜欢
+        { name: "swipe"},
       ],
       // finish: [{ name: "click", mark: { id: "tv_userinfo" }, param: { indexOf: { tag: "text", try: 10, get: { name: "given_weibo_title", uri: "api" } } } }],
     }

@@ -50,11 +50,12 @@ var Job = {
                 { next: Env.STEP.RUNNING, pageid: Env.PageEnum.REGISTER, jobs: this.pages.REGISTER.operates.input },
                 { next: Env.STEP.RUNNING, pageid: Env.PageEnum.ACCOUNT_CONFIRM, jobs: this.pages.ACCOUNT_CONFIRM.operates.input },
                 { next: Env.STEP.RUNNING, pageid: Env.PageEnum.ACCOUNT_SEND_CONFIRM, jobs: this.pages.ACCOUNT_SEND_CONFIRM.operates.send },
-                { next: Env.STEP.RUNNING, pageid: Env.PageEnum.REGISTER_OK, jobs: this.pages.REGISTER_OK.operates.send, exit: true },
+                { next: Env.STEP.RUNNING, pageid: Env.PageEnum.REGISTER_OK, jobs: this.pages.REGISTER_OK.operates.send },
                 { next: Env.STEP.RUNNING, pageid: Env.PageEnum.SELECT_CLASS, jobs: this.pages.SELECT_CLASS.operates.next },
                 { next: Env.STEP.RUNNING, pageid: Env.PageEnum.HOME, jobs: this.pages.HOME.operates.next },
                 { next: Env.STEP.RUNNING, pageid: Env.PageEnum.HOME_SEARCH, jobs: this.pages.HOME_SEARCH.operates.next },
                 { next: Env.STEP.RUNNING, pageid: Env.PageEnum.SEARCH, jobs: this.pages.SEARCH.operates.next },
+                { next: Env.STEP.RUNNING, pageid: Env.PageEnum.HOME_HOT, jobs: this.pages.HOME_HOT.operates.send, exit: true },
             ],
         }
     },
@@ -84,7 +85,7 @@ var Job = {
             must: [
                 { pageid: Env.PageEnum.REGISTER, jobs: this.pages.REGISTER.operates.input },
                 { pageid: Env.PageEnum.ACCOUNT_SEND_CONFIRM, jobs: this.pages.ACCOUNT_SEND_CONFIRM.operates.send },
-                { pageid: Env.PageEnum.REGISTER_OK, jobs: this.pages.REGISTER_OK.operates.send, exit: true },
+                { pageid: Env.PageEnum.HOME_HOT, jobs: this.pages.HOME_HOT.operates.send, exit: true },
             ],
             someone: [
             ],
@@ -247,8 +248,8 @@ var Job = {
             operates: {
                 send: [
                     { name: "get", mark: { name: "register_send_code", uri: "api" }, param: {} },
-                    { name: "sleep", param: { delay: 20000 } },
-                    { name: "click", mark: { className: "android.view.View", text: "我已发送短信，注册" } },
+                    { name: "sleep", param: { delay: 12000 } },
+                    { name: "click", mark: { className: "android.view.View", text: "我已发送短信，注册" }, param:{loops:5,delay:5000} },
                     // { name: "sleep", param:{delay:10000}},
                     // { name: "click", mark: { className:"android.view.View", text: "我已发送短信，注册" } },
                     // // 系统未收到短信，请重新发送短信验证
@@ -265,10 +266,20 @@ var Job = {
             next: [],
             operates: {
                 send: [
-                    // { name: "wait", mark: { className: "android.view.View", text: "恭喜您，" } },
-                    // { name: "text", mark: { className:"android.view.View", textEndsWith: "已经注册成功！" } , param: { set: "name" } },
-                    // { name: "get", mark: { name: "register_ok", uri: "api" }},
-                    // 系统未收到短信，请重新发送短信验证
+                ],
+                finish: [{ name: "sleep" }],
+            },
+        },
+        HOME_HOT: {
+            desc: "邮箱首页",
+            name: "邮箱首页",
+            priority:0,
+            pageid: Env.PageEnum.HOME_HOT,
+            mark: { className: "android.view.View", text: "收件箱" },
+            next: [],
+            operates: {
+                send: [
+                    { name: "get", mark: { name: "register_ok", uri: "api" }},
                 ],
                 finish: [{ name: "sleep" }],
             },

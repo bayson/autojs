@@ -25,6 +25,7 @@
  */
 
 var Utils = require('./utils');
+var Funs = require('./funs');
 var Api = require('./api');
 var Env = require('../env');
 
@@ -363,6 +364,7 @@ var operate = {
             }
             // let str = Api.postReplyMsg();
             let str = this.doGet(name);
+            console.log('do set text get '+name.name+':'+str);
             if (!!str) {
                 return target.setText(str);
             }
@@ -598,8 +600,31 @@ var operate = {
         } else {
             let target = this.build(mark);
             // console.log(this.build(mark).exists());
-            return !!target ? target.exists() : false;
+            let rs = !!target ? target.exists() : false;
+            console.log('do exists:',rs);
+            return rs;
         }
+    },
+    /**
+     * 换IP,OK
+     * @param {*} mark 
+     * @param {*} param 
+     */
+    doFly: function (mark, param) {
+        console.log('do fly');
+        let rm = -1;
+        if (!!param && !Utils.isNull(param.delay) && param.delay > -1) {
+            rm = parseInt(param.delay) * 1000;
+        }
+        if (rm == -1 || rm == undefined || rm == null || rm == "") {
+            rm = random(30000, 60000);
+        }
+        //开启飞行模式
+        Funs.closeFly();
+        sleep(rm);
+        //关闭飞行模式
+        Funs.openFly();
+        return true;
     },
     /**
      * 点击父控件,OK

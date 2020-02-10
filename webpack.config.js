@@ -24,7 +24,8 @@ function getEntry(globPath, options) {
 }
 
 var config = {
-  entry: getEntry('./src/work/**.js'),
+  // entry: getEntry('./src/work/*.js'),
+  entry: getEntry('./src/work/微博-删除重复微博.js'),
   output: {
     // filename: 'main.js',
     //注意：使用[name]确保每个文件名都不重复

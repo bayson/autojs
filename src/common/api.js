@@ -18,7 +18,7 @@ var api={
     try {
         // toast('开始获取配置');
         let c = Env.curName;
-        let r = http.get("https://kapi.i-tax.ren/api/aichat/config?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&v=" + Env.VERSION);
+        let r = http.get("http://api.tfjym.com/ai/chat/config?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&v=" + Env.VERSION);
         let body = r.body.string();
         // toast('get config ok');
         if (!!body) {
@@ -48,7 +48,7 @@ var api={
  getKeyword:function () {
     // console.log('get reply msg');
     try {
-        let r = http.get("https://kapi.i-tax.ren/api/aichat/keyword?f="+Env.CLIENT+"&n=" + encodeURIComponent(Env.curName) + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&v=" + Env.VERSION);
+        let r = http.get("http://api.tfjym.com/ai/chat/keyword?f="+Env.CLIENT+"&n=" + encodeURIComponent(Env.curName) + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&v=" + Env.VERSION);
         let body = r.body.string();
         // console.log('reply msg:' + body);
         if (!!body) {
@@ -73,7 +73,7 @@ var api={
     // console.log('get reply msg');
     try {
         let c = !!msg ? msg : Env.curTitleContent.substr(0, 255);
-        let r = http.get("https://kapi.i-tax.ren/api/aichat/reply?f="+Env.CLIENT+"&c=" + encodeURIComponent(c) + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&v=" + Env.VERSION);
+        let r = http.get("http://api.tfjym.com/ai/chat/reply?f="+Env.CLIENT+"&c=" + encodeURIComponent(c) + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&v=" + Env.VERSION);
         let body = r.body.string();
         // console.log('reply msg:' + body);
         Env.curComment = body;
@@ -130,7 +130,7 @@ var api={
   * @param {*} msg 
   */
  postReplyMsg:function(msg) {
-    let url = "https://kapi.i-tax.ren/api/aichat/reply";
+    let url = "http://api.tfjym.com/ai/chat/reply";
     r = http.postJson(url, {
         n: Env.curName,
         c: !!msg ? msg : Env.curTitleContent,
@@ -150,7 +150,7 @@ var api={
   * @param {*} msg 
   */
  postUpdateStatus:function(status) {
-    let url = "https://kapi.i-tax.ren/api/aichat/status";
+    let url = "http://api.tfjym.com/ai/chat/status";
     r = http.postJson(url, {
         n: Env.curName,
         s: status,
@@ -181,7 +181,7 @@ var api={
   loginOk:function(phone, name, type,msg) {
     try {
       let c = name;
-      let r = http.get("https://kapi.i-tax.ren/api/aichat/loginok?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) +"&msg=" + encodeURIComponent(msg)
+      let r = http.get("http://api.tfjym.com/ai/chat/loginok?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) +"&msg=" + encodeURIComponent(msg)
       + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&p=" + phone + "&tp=" + type);
       let body = r.body.string();
       // toast(body);
@@ -199,7 +199,7 @@ var api={
     try {
       phone = !!phone ? phone : Env.curPhone
       let c = name;
-      let r = http.get("https://kapi.i-tax.ren/api/aichat/phone/code?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&p=" + phone );
+      let r = http.get("http://api.tfjym.com/ai/chat/phone/code?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&p=" + phone );
       let body = r.body.string();
       return body;
     } catch (e) {
@@ -222,7 +222,7 @@ var api={
   getRegisterName: function () {
     try {
       let c = Env.curName;
-      let r = http.get("https://kapi.i-tax.ren/api/aichat/username?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) 
+      let r = http.get("http://api.tfjym.com/ai/chat/username?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) 
       + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&p=" + Env.curPhone );
       let body = r.body.string();
       Env.curUsername = body;
@@ -236,7 +236,7 @@ var api={
   getRegisterPassword: function () {
     try {
       let c = Env.curName;
-      let r = http.get("https://kapi.i-tax.ren/api/aichat/password?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) 
+      let r = http.get("http://api.tfjym.com/ai/chat/password?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) 
       + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&p=" + Env.curPhone );
       let body = r.body.string();
       return Utils.isNull(body) ? Env.curDefaultPassword : body;
@@ -251,10 +251,47 @@ var api={
     return this.loginOk(Env.curPhone,Env.curName,'register',JSON.stringify(msg));
   },
 
+  getLoginName: function(){
+      let phones = Env.curPHoneList;      
+      return random(0, phones.length - 1);
+  },
+
+  getLoginPassword: function(){
+     return '123456';
+  },
+
   finish: function (){
     let msg = {username:Env.curUsername,name:Env.curName,phone:Env.curPhone,item:Env.itemRegister,client:Env.CLIENT};
     console.log('register ok:',msg)
     return this.loginOk(Env.curPhone,Env.curName,'register',JSON.stringify(msg));
+  },
+
+  getWeiboAccount: function () {
+    try {
+      let c = Env.curName;
+      let r = http.get("http://api.tfjym.com/ai/weibo/account?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) 
+      + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&s=0" );
+      let body = r.body.string();
+      Env.curUsername = body;
+      Env.curName = body;
+      console.log('getWeiboAccount:', Env.curUsername);
+      return body;
+    } catch (e) {
+
+    }
+  },
+
+  getWeiboPassword: function () {
+    try {
+      let c = Env.curName;
+      let r = http.get("http://api.tfjym.com/ai/weibo/password?f="+Env.CLIENT+"&n=" + encodeURIComponent(c) 
+      + "&t=" + new Date().getTime() + "&d=" + device.getIMEI() + "&p=" + Env.curPhone );
+      let body = r.body.string();
+      console.log('getWeiboPassword phone:', Env.curPhone, ' pwd:', body);
+      return Utils.isNull(body) ? Env.curDefaultPassword : body;
+    } catch (e) {
+
+    }
   },
   
 }

@@ -66,8 +66,9 @@ var work = {
    * 主函数
    */
   main: function (jib, afterInit) {
-
+    //初始化变量
     this._curJob = jib;
+
     //初始化
     this.init(this._curJob);
 
@@ -76,8 +77,7 @@ var work = {
       afterInit(this._curJob);
     }
 
-    Env.CLIENT = this._curJob.CLIENT;
-
+   
     // let items = {
     //   login: JSON.parse(JSON.stringify(this._curJob.login)),
     //   nickname: JSON.parse(JSON.stringify(this._curJob.nickname)),
@@ -95,7 +95,7 @@ var work = {
           }
       }
 
-      sleep(3000);
+      sleep(1000);
     }
     //结束
     Api.finish();
@@ -134,7 +134,7 @@ var work = {
    */
   run: function (items) {
     this.doPage(items, this._curConf);
-    sleep(2000);
+    sleep(1000);
   },
   /**
    * 处理页面的操作
@@ -208,7 +208,7 @@ var work = {
       } else {
         this.doBack();
       }
-      sleep(2000);
+      sleep(1000);
 
     }
   },
@@ -240,7 +240,7 @@ var work = {
           console.log('finish, but not in right page:', item.name);
         }
       }
-      sleep(2000);
+      sleep(1000);
     };
     if (pageList.length <= 0) {
       result = false;
